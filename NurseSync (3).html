@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NurseSync — ระบบจัดตารางเวรพยาบาล</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>:root{--blue:#1d4ed8;--blue2:#2563b8;--blue3:#3b82f6;--bluepale:#dbeafe;--blueglass:rgba(37,99,184,.08);--teal:#0d9488;--teall:#ccfbf1;--green:#16a34a;--greenl:#dcfce7;--amber:#d97706;--amberl:#fef3c7;--red:#dc2626;--redl:#fee2e2;--purple:#7c3aed;--purplel:#ede9fe;--bg:#f0f5ff;--bg2:#e8f0fe;--card:#fff;--border:#c7d7f5;--text:#1e293b;--text2:#475569;--text3:#94a3b8;--shadow:0 2px 16px rgba(37,99,184,.10);--shadowhov:0 6px 32px rgba(37,99,184,.18);--r:14px;--rsm:8px}*{box-sizing:border-box;margin:0;padding:0}html{font-size:15px}body{font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}#login{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#1a4b8c 0%,#2563b8 50%,#0d9488 100%);position:relative;overflow:hidden}#login::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:rgba(255,255,255,.04);top:-150px;right:-100px}.lcard{background:#fff;border-radius:24px;padding:44px 38px;width:400px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;z-index:1}.llogo{text-align:center;margin-bottom:26px}.licon{width:68px;height:68px;border-radius:18px;background:linear-gradient(135deg,#2563b8,#0d9488);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;box-shadow:0 8px 24px rgba(37,99,184,.3)}.licon i{font-size:30px;color:#fff}.llogo h1{font-size:1.55rem;font-weight:700;color:#1a4b8c}.llogo p{color:var(--text2);font-size:.88rem;margin-top:3px}.roles{display:flex;gap:8px;margin-bottom:16px}.rbtn{flex:1;padding:8px 4px;border:1.5px solid var(--border);border-radius:var(--rsm);background:#fff;cursor:pointer;font-family:'Sarabun',sans-serif;font-size:.8rem;font-weight:500;color:var(--text2);transition:all .2s;text-align:center}.rbtn.on{border-color:var(--blue2);background:var(--bluepale);color:var(--blue2)}.rbtn i{display:block;font-size:1.15rem;margin-bottom:3px}.fg{margin-bottom:16px}.fg label{display:block;font-weight:600;margin-bottom:5px;font-size:.88rem}.fg input,.fg select,.fg textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--rsm);font-family:'Sarabun',sans-serif;font-size:.92rem;color:var(--text);background:#fff;transition:border-color .2s,box-shadow .2s}.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--blue2);box-shadow:0 0 0 3px rgba(37,99,184,.12)}.btn-login{width:100%;padding:13px;background:linear-gradient(135deg,#2563b8,#1a4b8c);color:#fff;border:none;border-radius:var(--rsm);font-family:'Sarabun',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(37,99,184,.3)}.btn-login:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,184,.4)}#app{display:none;min-height:100vh}.layout{display:flex;min-height:100vh}.sidebar{width:255px;min-height:100vh;background:linear-gradient(180deg,#1a4b8c,#162f6a);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100;transition:transform .3s}.sb-head{padding:20px 18px;border-bottom:1px solid rgba(255,255,255,.1)}.sb-logo{display:flex;align-items:center;gap:10px}.sb-logobox{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#4a90d9,#0d9488);display:flex;align-items:center;justify-content:center}.sb-logobox i{color:#fff;font-size:17px}.sb-name{color:#fff;font-size:1.1rem;font-weight:700}.sb-ver{color:rgba(255,255,255,.45);font-size:.72rem}.sb-user{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px}.sb-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4a90d9,#0d9488);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.9rem;flex-shrink:0}.sb-uname{color:#fff;font-weight:600;font-size:.88rem}.sb-urole{color:rgba(255,255,255,.5);font-size:.75rem}.sb-nav{flex:1;padding:10px 0;overflow-y:auto}.nav-sec{padding:8px 18px 3px}.nav-sec span{color:rgba(255,255,255,.3);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}.ni{display:flex;align-items:center;gap:9px;padding:9px 18px;color:rgba(255,255,255,.68);cursor:pointer;transition:all .2s;font-size:.88rem;font-weight:500;border-left:3px solid transparent}.ni:hover{background:rgba(255,255,255,.08);color:#fff}.ni.on{background:rgba(255,255,255,.12);color:#fff;border-left-color:#4a90d9}.ni i{width:18px;text-align:center;font-size:.95rem}.nbadge{margin-left:auto;background:var(--red);color:#fff;border-radius:20px;padding:1px 7px;font-size:.7rem;font-weight:700}.sb-foot{padding:14px 18px;border-top:1px solid rgba(255,255,255,.1)}.btn-logout{display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;border-radius:var(--rsm);background:rgba(255,255,255,.07);color:rgba(255,255,255,.65);border:none;cursor:pointer;font-family:'Sarabun',sans-serif;font-size:.86rem;transition:all .2s}.btn-logout:hover{background:rgba(220,38,38,.2);color:#fff}.main{margin-left:255px;flex:1;min-height:100vh;display:flex;flex-direction:column}.topbar{background:#fff;border-bottom:1px solid var(--border);padding:13px 26px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 1px 8px rgba(37,99,184,.06)}.tb-left{display:flex;align-items:center;gap:10px}.tb-title{font-size:1.05rem;font-weight:700;color:#1a4b8c}.tb-right{display:flex;align-items:center;gap:10px}.tb-date{color:var(--text2);font-size:.82rem}.notifbtn{position:relative;background:var(--bg);border:1px solid var(--border);border-radius:var(--rsm);width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);transition:all .2s}.notifbtn:hover{background:var(--bluepale);color:var(--blue2)}.ndot{position:absolute;top:5px;right:5px;width:8px;height:8px;background:var(--red);border-radius:50%;border:1.5px solid #fff}.content{padding:26px;flex:1}.page{display:none}.page.on{display:block}.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden}.ch{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}.ct{font-weight:700;color:#1a4b8c;font-size:.95rem;display:flex;align-items:center;gap:7px}.cb{padding:20px}.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}.sc{background:var(--card);border-radius:var(--r);padding:18px 20px;border:1px solid var(--border);box-shadow:var(--shadow);position:relative;overflow:hidden;transition:all .2s}.sc:hover{box-shadow:var(--shadowhov);transform:translateY(-2px)}.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}.sc.b::before{background:linear-gradient(90deg,#2563b8,#4a90d9)}.sc.t::before{background:linear-gradient(90deg,#0d9488,#14b8a6)}.sc.g::before{background:linear-gradient(90deg,#16a34a,#22c55e)}.sc.a::before{background:linear-gradient(90deg,#d97706,#f59e0b)}.sc.r::before{background:linear-gradient(90deg,#dc2626,#ef4444)}.sc-ico{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;margin-bottom:10px}.sc.b .sc-ico{background:var(--bluepale);color:var(--blue2)}.sc.t .sc-ico{background:var(--teall);color:var(--teal)}.sc.g .sc-ico{background:var(--greenl);color:var(--green)}.sc.a .sc-ico{background:var(--amberl);color:var(--amber)}.sc.r .sc-ico{background:var(--redl);color:var(--red)}.sc-num{font-size:1.9rem;font-weight:700;font-family:'IBM Plex Mono',monospace}.sc-lbl{color:var(--text2);font-size:.8rem;margin-top:1px}.sc-chg{font-size:.75rem;margin-top:5px;display:flex;align-items:center;gap:3px}.up{color:var(--green)}.dn{color:var(--red)}.tw{overflow-x:auto}table{width:100%;border-collapse:collapse}th{padding:10px 13px;text-align:left;background:var(--bg2);color:#1a4b8c;font-size:.8rem;font-weight:600;letter-spacing:.03em;border-bottom:2px solid var(--border);white-space:nowrap}td{padding:10px 13px;border-bottom:1px solid var(--border);font-size:.86rem}tr:hover td{background:var(--bg)}tr:last-child td{border-bottom:none}.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:.75rem;font-weight:600;white-space:nowrap}.bb{background:var(--bluepale);color:var(--blue2)}.bt{background:var(--teall);color:var(--teal)}.bg{background:var(--greenl);color:var(--green)}.ba{background:var(--amberl);color:var(--amber)}.br{background:var(--redl);color:var(--red)}.bp{background:var(--purplel);color:var(--purple)}.bgr{background:#f1f5f9;color:var(--text2)}.sc-grid{overflow-x:auto}.st{min-width:860px;border-collapse:collapse;width:100%}.st th{padding:7px 9px;font-size:.76rem;text-align:center;background:#1a4b8c;color:#fff;border:1px solid rgba(255,255,255,.1)}.st td{padding:5px 7px;text-align:center;border:1px solid var(--border);font-size:.8rem;min-width:62px}.st .nn{text-align:left;font-weight:600;min-width:130px;position:sticky;left:0;background:#fff;z-index:1}.chip{display:inline-block;padding:2px 7px;border-radius:5px;font-size:.73rem;font-weight:700;cursor:pointer;transition:transform .15s}.chip:hover{transform:scale(1.12)}.cM{background:#dbeafe;color:#1d4ed8}.cA{background:#fef3c7;color:#d97706}.cN{background:#ede9fe;color:#7c3aed}.cO{background:#fee2e2;color:#dc2626}.coff{background:#f1f5f9;color:#94a3b8}.cleave{background:#dcfce7;color:#16a34a}.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:var(--rsm);font-family:'Sarabun',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;border:1.5px solid transparent}.bsm{padding:5px 11px;font-size:.8rem}.bblue{background:var(--blue2);color:#fff;border-color:var(--blue2)}.bblue:hover{background:#1a4b8c;border-color:#1a4b8c}.bteal{background:var(--teal);color:#fff;border-color:var(--teal)}.bteal:hover{background:#0f766e}.bgreen{background:var(--green);color:#fff;border-color:var(--green)}.bgreen:hover{background:#15803d}.bred{background:var(--red);color:#fff;border-color:var(--red)}.bred:hover{background:#b91c1c}.bline{background:transparent;color:var(--blue2);border-color:var(--blue2)}.bline:hover{background:var(--bluepale)}.bghost{background:transparent;color:var(--text2);border-color:var(--border)}.bghost:hover{background:var(--bg)}.bw{width:100%}.moverlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(15,23,42,.5);backdrop-filter:blur(2px);align-items:center;justify-content:center;padding:18px}.moverlay.on{display:flex}.modal{background:#fff;border-radius:var(--r);width:540px;max-width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.22);animation:sup .25s ease}@keyframes sup{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}.mh{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}.mt{font-size:1rem;font-weight:700;color:#1a4b8c}.mclose{width:30px;height:30px;border-radius:7px;background:var(--bg);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:all .2s}.mclose:hover{background:var(--redl);color:var(--red)}.mb{padding:22px}.mf{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}.fr{display:grid;grid-template-columns:1fr 1fr;gap:14px}.fr3{grid-template-columns:1fr 1fr 1fr}.tcon{position:fixed;bottom:22px;right:22px;z-index:1000;display:flex;flex-direction:column;gap:7px}.toast{background:#fff;border-radius:var(--rsm);padding:13px 16px;box-shadow:0 4px 20px rgba(0,0,0,.15);display:flex;align-items:center;gap:9px;min-width:270px;max-width:340px;border-left:4px solid var(--blue2);animation:tin .3s ease}@keyframes tin{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:translateX(0)}}.toast.s{border-left-color:var(--green)}.toast.e{border-left-color:var(--red)}.toast.w{border-left-color:var(--amber)}.toast-i{font-size:1.05rem}.toast.s .toast-i{color:var(--green)}.toast.e .toast-i{color:var(--red)}.toast.w .toast-i{color:var(--amber)}.toast p{font-size:.85rem;flex:1}.lov{display:none;position:fixed;inset:0;z-index:500;background:rgba(255,255,255,.85);backdrop-filter:blur(3px);align-items:center;justify-content:center;flex-direction:column;gap:14px}.lov.on{display:flex}.spin{width:44px;height:44px;border:4px solid var(--border);border-top-color:var(--blue2);border-radius:50%;animation:sp .8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}.fl{display:flex}.ic{align-items:center}.jb{justify-content:space-between}.g2{gap:8px}.g3{gap:12px}.g4{gap:16px}.mb2{margin-bottom:8px}.mb3{margin-bottom:12px}.mb4{margin-bottom:16px}.mb6{margin-bottom:22px}.mt4{margin-top:16px}.tsm{font-size:.83rem}.txs{font-size:.76rem}.tmut{color:var(--text2)}.tblue{color:var(--blue2)}.bold{font-weight:700}.semi{font-weight:600}.g2c{display:grid;grid-template-columns:1fr 1fr;gap:16px}.g3c{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}.sec{font-size:1.2rem;font-weight:700;color:#1a4b8c;margin-bottom:18px;display:flex;align-items:center;gap:8px}.sec::after{content:'';flex:1;height:1px;background:var(--border)}.av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#4a90d9,#0d9488);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.78rem;font-weight:700;flex-shrink:0}.pbw{background:var(--bg2);border-radius:10px;height:7px;overflow:hidden}.pb{height:100%;border-radius:10px;background:linear-gradient(90deg,#2563b8,#0d9488)}.aipanel{background:linear-gradient(135deg,#1a4b8c,#0d9488);border-radius:var(--r);padding:22px;color:#fff;position:relative;overflow:hidden}.aipanel::before{content:'';position:absolute;top:-30px;right:-30px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,.06)}.airow{background:rgba(255,255,255,.1);border-radius:var(--rsm);padding:9px 13px;font-size:.83rem;display:flex;align-items:flex-start;gap:9px;border:1px solid rgba(255,255,255,.15);margin-bottom:7px}.note{background:#fffbeb;border:1px solid #fde68a;border-radius:var(--rsm);padding:11px 14px;font-size:.83rem;color:#92400e;display:flex;gap:9px;align-items:flex-start;margin-bottom:14px}.hmap{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}.hcell{aspect-ratio:1;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:600;cursor:pointer;transition:transform .15s}.hcell:hover{transform:scale(1.15)}.h0{background:#e2e8f0;color:var(--text3)}.h1{background:#bfdbfe;color:#1d4ed8}.h2{background:#93c5fd;color:#1e40af}.h3{background:#3b82f6;color:#fff}.h4{background:#1d4ed8;color:#fff}.h5{background:#1e3a8a;color:#fff}.tab-bar{display:flex;border-bottom:2px solid var(--border);margin-bottom:16px}.tabbtn{padding:9px 18px;border:none;background:none;cursor:pointer;font-family:'Sarabun',sans-serif;font-size:.88rem;font-weight:500;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s}.tabbtn.on{color:var(--blue2);border-bottom-color:var(--blue2);font-weight:700}.setup-steps{display:flex;margin-bottom:24px}.sstep{flex:1;text-align:center;padding:12px;border-bottom:3px solid var(--border);color:var(--text3)}.sstep.on{border-bottom-color:var(--blue2);color:var(--blue2)}.sstep.done{border-bottom-color:var(--green);color:var(--green)}.sstep-n{width:26px;height:26px;border-radius:50%;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;margin:0 auto 5px}.sstep.done .sstep-n{background:var(--green);color:#fff;border-color:var(--green)}.gas-code{background:#1e293b;color:#e2e8f0;border-radius:var(--rsm);padding:13px;font-size:.72rem;font-family:'IBM Plex Mono',monospace;overflow:auto;max-height:280px;line-height:1.6;white-space:pre}@media(max-width:1024px){.sgrid{grid-template-columns:repeat(2,1fr)}.g3c{grid-template-columns:1fr 1fr}}@media(max-width:768px){.sidebar{transform:translateX(-255px)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.sgrid{grid-template-columns:1fr 1fr}.content{padding:14px}.fr{grid-template-columns:1fr}}</style>
+</head>
+<body>
+<!-- LOADING -->
+<div class="lov" id="lov"><div class="spin"></div><p style="color:#1a4b8c;font-weight:600">กำลังโหลด...</p></div>
+<!-- TOAST -->
+<div class="tcon" id="tcon"></div>
+<!-- ══════════════ LOGIN ══════════════ -->
+<div id="login">
+<div class="lcard">
+<div class="llogo">
+<div class="licon"><i class="fa-solid fa-hospital-user"></i></div>
+<h1>NurseSync</h1>
+<p>ระบบจัดตารางเวรพยาบาลอัจฉริยะ</p>
+</div>
+<div class="roles">
+<div class="rbtn on" onclick="selRole('admin',this)"><i class="fa-solid fa-user-shield"></i>ผู้ดูแลระบบ</div>
+<div class="rbtn"    onclick="selRole('head',this)"><i class="fa-solid fa-user-nurse"></i>หัวหน้าหอ</div>
+<div class="rbtn"    onclick="selRole('nurse',this)"><i class="fa-solid fa-stethoscope"></i>พยาบาล</div>
+</div>
+<div class="fg"><label>รหัสพนักงาน</label><input id="lu" value="admin001"></div>
+<div class="fg"><label>รหัสผ่าน</label><input type="password" id="lp" value="1234"></div>
+<button class="btn-login" onclick="doLogin()"><i class="fa-solid fa-right-to-bracket"></i> เข้าสู่ระบบ</button>
+<p style="text-align:center;margin-top:14px;font-size:.76rem;color:var(--text3)">
+      admin001&nbsp;/&nbsp;1234 &nbsp;|&nbsp; head001&nbsp;/&nbsp;1234 &nbsp;|&nbsp; nurse001&nbsp;/&nbsp;1234
+    </p>
+</div>
+</div>
+<!-- ══════════════ APP ══════════════ -->
+<div id="app">
+<div class="layout">
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sb">
+<div class="sb-head">
+<div class="sb-logo">
+<div class="sb-logobox"><i class="fa-solid fa-hospital-user"></i></div>
+<div><div class="sb-name">NurseSync</div><div class="sb-ver">v2.1 — stpfac@gmail.com</div></div>
+</div>
+</div>
+<div class="sb-user">
+<div class="sb-av" id="sbAv">A</div>
+<div><div class="sb-uname" id="sbName">ผู้ดูแลระบบ</div><div class="sb-urole" id="sbRole">Admin</div></div>
+</div>
+<nav class="sb-nav">
+<div class="nav-sec"><span>หลัก</span></div>
+<div class="ni on" onclick="go('dashboard',this)"><i class="fa-solid fa-gauge-high"></i>Dashboard</div>
+<div class="ni"    onclick="go('schedule',this)"><i class="fa-solid fa-calendar-days"></i>ตารางเวร</div>
+<div class="ni"    onclick="go('auto',this)"><i class="fa-solid fa-wand-magic-sparkles"></i>จัดเวรอัตโนมัติ</div>
+<div class="nav-sec"><span>บุคลากร</span></div>
+<div class="ni"    onclick="go('staff',this)"><i class="fa-solid fa-users"></i>ข้อมูลพยาบาล</div>
+<div class="ni"    onclick="go('leave',this)"><i class="fa-solid fa-calendar-xmark"></i>การลา</div>
+<div class="nav-sec"><span>ดำเนินการ</span></div>
+<div class="ni"    onclick="go('swap',this)"><i class="fa-solid fa-arrows-rotate"></i>ขอแลกเวร<span class="nbadge" id="swapBadge">2</span></div>
+<div class="ni"    onclick="go('notify',this)"><i class="fa-solid fa-bell"></i>แจ้งเตือน</div>
+<div class="nav-sec"><span>วิเคราะห์</span></div>
+<div class="ni"    onclick="go('reports',this)"><i class="fa-solid fa-chart-bar"></i>รายงาน</div>
+<div class="ni"    onclick="go('ai',this)"><i class="fa-solid fa-brain"></i>AI วิเคราะห์</div>
+<div class="nav-sec"><span>ตั้งค่า</span></div>
+<div class="ni"    onclick="go('types',this)"><i class="fa-solid fa-clock"></i>ประเภทเวร</div>
+<div class="ni"    onclick="go('setup',this)"><i class="fa-brands fa-google"></i>Google Sheets</div>
+</nav>
+<div class="sb-foot"><button class="btn-logout" onclick="doLogout()"><i class="fa-solid fa-arrow-right-from-bracket"></i>ออกจากระบบ</button></div>
+</aside>
+<!-- MAIN -->
+<main class="main">
+<div class="topbar">
+<div class="tb-left">
+<button style="background:none;border:none;cursor:pointer;color:var(--text2);padding:4px" onclick="document.getElementById('sb').classList.toggle('open')"><i class="fa-solid fa-bars"></i></button>
+<span class="tb-title" id="tbTitle">Dashboard</span>
+</div>
+<div class="tb-right">
+<span class="tb-date" id="tbDate"></span>
+<div class="notifbtn" onclick="go('notify',null)"><i class="fa-solid fa-bell"></i><span class="ndot"></span></div>
+<div class="av" id="tbAv">A</div>
+</div>
+</div>
+<div class="content">
+<!-- ═══ DASHBOARD ═══ -->
+<div class="page on" id="pg-dashboard">
+<div class="sgrid">
+<div class="sc b"><div class="sc-ico"><i class="fa-solid fa-users"></i></div><div class="sc-num" id="stTotal">42</div><div class="sc-lbl">พยาบาลทั้งหมด</div><div class="sc-chg up"><i class="fa-solid fa-arrow-up"></i>+2 เดือนนี้</div></div>
+<div class="sc t"><div class="sc-ico"><i class="fa-solid fa-user-check"></i></div><div class="sc-num" id="stDuty">36</div><div class="sc-lbl">ปฏิบัติงานวันนี้</div><div class="sc-chg up"><i class="fa-solid fa-circle"></i>Online</div></div>
+<div class="sc g"><div class="sc-ico"><i class="fa-solid fa-calendar-check"></i></div><div class="sc-num">94%</div><div class="sc-lbl">ครอบคลุมเวร</div><div class="sc-chg up"><i class="fa-solid fa-arrow-up"></i>+3%</div></div>
+<div class="sc a"><div class="sc-ico"><i class="fa-solid fa-calendar-xmark"></i></div><div class="sc-num" id="stLeave">6</div><div class="sc-lbl">ลางานวันนี้</div><div class="sc-chg dn"><i class="fa-solid fa-arrow-down"></i>-1</div></div>
+</div>
+<div class="g2c mb6">
+<div class="card">
+<div class="ch"><span class="ct"><i class="fa-solid fa-chart-pie"></i>สัดส่วนเวรวันนี้</span></div>
+<div class="cb" style="display:flex;align-items:center;gap:18px">
+<canvas id="chPie" width="150" height="150"></canvas>
+<div style="flex:1">
+<div class="fl ic g2 mb2"><div style="width:11px;height:11px;border-radius:3px;background:#dbeafe;border:2px solid #2563b8"></div><span class="tsm">เวรเช้า</span><b class="tsm" style="margin-left:auto">14</b></div>
+<div class="fl ic g2 mb2"><div style="width:11px;height:11px;border-radius:3px;background:#fef3c7;border:2px solid #d97706"></div><span class="tsm">เวรบ่าย</span><b class="tsm" style="margin-left:auto">12</b></div>
+<div class="fl ic g2 mb2"><div style="width:11px;height:11px;border-radius:3px;background:#ede9fe;border:2px solid #7c3aed"></div><span class="tsm">เวรดึก</span><b class="tsm" style="margin-left:auto">8</b></div>
+<div class="fl ic g2"><div style="width:11px;height:11px;border-radius:3px;background:#fee2e2;border:2px solid #dc2626"></div><span class="tsm">On Call</span><b class="tsm" style="margin-left:auto">2</b></div>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="ch"><span class="ct"><i class="fa-solid fa-chart-line"></i>ภาระงานรายสัปดาห์</span></div>
+<div class="cb"><canvas id="chWeek" height="150"></canvas></div>
+</div>
+</div>
+<div class="g2c mb6">
+<div class="card">
+<div class="ch"><span class="ct"><i class="fa-solid fa-fire"></i>Heatmap ภาระงาน (มิ.ย.)</span></div>
+<div class="cb">
+<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:6px">
+<div class="txs tmut" style="text-align:center">อา</div><div class="txs tmut" style="text-align:center">จ</div>
+<div class="txs tmut" style="text-align:center">อ</div><div class="txs tmut" style="text-align:center">พ</div>
+<div class="txs tmut" style="text-align:center">พฤ</div><div class="txs tmut" style="text-align:center">ศ</div>
+<div class="txs tmut" style="text-align:center">ส</div>
+</div>
+<div id="hmap" class="hmap"></div>
+<div class="fl g2 mt4" style="align-items:center;font-size:.72rem;color:var(--text2)">
+<span>น้อย</span>
+<div style="width:13px;height:13px;background:#e2e8f0;border-radius:3px"></div>
+<div style="width:13px;height:13px;background:#93c5fd;border-radius:3px"></div>
+<div style="width:13px;height:13px;background:#3b82f6;border-radius:3px"></div>
+<div style="width:13px;height:13px;background:#1e3a8a;border-radius:3px"></div>
+<span>มาก</span>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="ch"><span class="ct"><i class="fa-solid fa-clock-rotate-left"></i>กิจกรรมล่าสุด</span></div>
+<div id="actFeed" style="padding:0"></div>
+</div>
+</div>
+<div class="aipanel mb6">
+<h3 style="font-size:.95rem;font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:7px"><i class="fa-solid fa-brain"></i>AI แนะนำการจัดเวร</h3>
+<p style="font-size:.83rem;opacity:.85;margin-bottom:14px">วิเคราะห์จากข้อมูลปัจจุบัน</p>
+<div id="aiMain"></div>
+</div>
+</div>
+<!-- ═══ SCHEDULE ═══ -->
+<div class="page" id="pg-schedule">
+<div class="fl ic jb mb4">
+<h2 class="sec" style="margin-bottom:0">ตารางเวรพยาบาล</h2>
+<div class="fl g2">
+<select id="schMonth" style="padding:7px 11px;border:1.5px solid var(--border);border-radius:var(--rsm);font-family:'Sarabun',sans-serif" onchange="renderSchedule()"></select>
+<button class="btn bblue bsm" onclick="openM('mAddShift')"><i class="fa-solid fa-plus"></i>เพิ่มเวร</button>
+<button class="btn bghost bsm" onclick="syncNow()"><i class="fa-brands fa-google"></i>Sync</button>
+</div>
+</div>
+<div class="card mb4">
+<div class="cb" style="padding:12px 18px">
+<div class="fl g3 flex-wrap">
+<select id="fDept" style="padding:6px 11px;border:1.5px solid var(--border);border-radius:var(--rsm);font-family:'Sarabun',sans-serif" onchange="renderSchedule()">
+<option value="">ทุกแผนก</option><option>ICU</option><option>ER</option>
+<option>OPD</option><option>Ward A</option><option>Ward B</option><option>OR</option>
+</select>
+<select id="fShift" style="padding:6px 11px;border:1.5px solid var(--border);border-radius:var(--rsm);font-family:'Sarabun',sans-serif" onchange="renderSchedule()">
+<option value="">ทุกเวร</option><option value="M">เวรเช้า</option>
+<option value="A">เวรบ่าย</option><option value="N">เวรดึก</option><option value="O">On Call</option>
+</select>
+<button class="btn bghost bsm" onclick="document.getElementById('fDept').value='';document.getElementById('fShift').value='';renderSchedule()"><i class="fa-solid fa-rotate-left"></i>รีเซ็ต</button>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="sc-grid"><table class="st"><thead id="schHead"></thead><tbody id="schBody"></tbody></table></div>
+</div>
+<div class="fl g2 mt4 flex-wrap">
+<span class="badge bb"><span class="chip cM" style="cursor:default">M</span>เช้า 06-14</span>
+<span class="badge ba"><span class="chip cA" style="cursor:default">A</span>บ่าย 14-22</span>
+<span class="badge bp"><span class="chip cN" style="cursor:default">N</span>ดึก 22-06</span>
+<span class="badge br"><span class="chip cO" style="cursor:default">O</span>On Call</span>
+<span class="badge bgr"><span class="chip coff" style="cursor:default">-</span>หยุด</span>
+<span class="badge bg"><span class="chip cleave" style="cursor:default">L</span>ลา</span>
+</div>
+</div>
+<!-- ═══ AUTO SCHEDULE ═══ -->
+<div class="page" id="pg-auto">
+<h2 class="sec">จัดตารางเวรอัตโนมัติ ด้วย AI</h2>
+<div class="g2c mb4">
+<div class="card">
+<div class="ch"><span class="ct"><i class="fa-solid fa-sliders"></i>ตั้งค่า</span></div>
+<div class="cb">
+<div class="fg"><label>เดือนที่ต้องการจัด</label><input type="month" id="autoMo" value="2025-07"></div>
+<div class="fr mb3">
+<div class="fg"><label>พยาบาลขั้นต่ำ/เวร</label><input type="number" id="minN" value="4" min="1"></div>
+<div class="fg"><label>เวรสูงสุด/คน/เดือน</label><input type="number" id="maxS" value="22" min="1"></div>
+</div>
+<div class="fr mb3">
+<div class="fg"><label>เวรดึกสูงสุด/คน/เดือน</label><input type="number" id="maxNi" value="8" min="0"></div>
+<div class="fg"><label>พักหลังเวรดึก (วัน)</label><input type="number" id="restN" value="1" min="0"></div>
+</div>
+<div class="fg"><label>แผนก</label>
+<select id="autoDept"><option value="">ทุกแผนก</option><option>ICU</option><option>ER</option>
+<option>OPD</option><option>Ward A</option><option>Ward B</option><option>OR</option></select>
+</div>
+<button class="btn bblue bw" onclick="runAuto()"><i class="fa-solid fa-wand-magic-sparkles"></i>สร้างตารางอัตโนมัติ</button>
+</div>
+</div>
+<div class="card">
+<div class="ch"><span class="ct"><i class="fa-solid fa-shield-check"></i>กฎการจัด</span></div>
+<div class="cb">
+<div class="airow" style="background:var(--greenl);border-color:#86efac;color:var(--green);margin-bottom:7px"><i class="fa-solid fa-check"></i>ไม่จัดเวรดึกติดต่อกัน 2 คืน</div>
+<div class="airow" style="background:var(--greenl);border-color:#86efac;color:var(--green);margin-bottom:7px"><i class="fa-solid fa-check"></i>พักอย่างน้อย 1 วันหลังเวรดึก</div>
+<div class="airow" style="background:var(--greenl);border-color:#86efac;color:var(--green);margin-bottom:7px"><i class="fa-solid fa-check"></i>ไม่เกิน 6 วันทำงานติดต่อกัน</div>
+<div class="airow" style="background:var(--greenl);border-color:#86efac;color:var(--green);margin-bottom:7px"><i class="fa-solid fa-check"></i>พิจารณาวันลาล่วงหน้า</div>
+<div class="airow" style="background:var(--amberl);border-color:#fde68a;color:var(--amber);margin-bottom:7px"><i class="fa-solid fa-triangle-exclamation"></i>กระจายเวรดึกให้สมดุล</div>
+<div class="airow" style="background:var(--amberl);border-color:#fde68a;color:var(--amber)"><i class="fa-solid fa-triangle-exclamation"></i>ตรวจสอบวันหยุดนักขัตฤกษ์</div>
+</div>
+</div>
+</div>
+<div class="card" id="autoResult" style="display:none">
+<div class="ch">
+<span class="ct"><i class="fa-solid fa-table-list"></i>ผลการจัด</span>
+<div class="fl g2">
+<button class="btn bgreen bsm" onclick="applyAuto()"><i class="fa-solid fa-check"></i>นำไปใช้</button>
+<button class="btn bline bsm" onclick="runAuto()"><i class="fa-solid fa-rotate"></i>จัดใหม่</button>
+</div>
+</div>
+<div class="sc-grid"><table class="st"><thead id="autoHead"></thead><tbody id="autoBody"></tbody></table></div>
+</div>
+</div>
+<!-- ═══ STAFF ═══ -->
+<div class="page" id="pg-staff">
+<div class="fl ic jb mb4">
+<h2 class="sec" style="margin-bottom:0">ข้อมูลพยาบาล</h2>
+<div class="fl g2">
+<input id="stSearch" placeholder="🔍 ค้นหา..." style="padding:7px 11px;border:1.5px solid var(--border);border-radius:var(--rsm);font-family:'Sarabun',sans-serif" oninput="renderStaff()">
+<button class="btn bblue bsm" onclick="openM('mStaff')"><i class="fa-solid fa-plus"></i>เพิ่ม</button>
+<button class="btn bghost bsm" onclick="syncNow()"><i class="fa-brands fa-google"></i>Sync</button>
+</div>
+</div>
+<div class="card"><div class="tw"><table><thead><tr>
+<th>รหัส</th><th>ชื่อ-สกุล</th><th>ตำแหน่ง</th><th>แผนก</th><th>ระดับ</th><th>เบอร์</th><th>สถานะ</th><th>เวร/เดือน</th><th>จัดการ</th>
+</tr></thead><tbody id="stBody"></tbody></table></div></div>
+</div>
+<!-- ═══ LEAVE ═══ -->
+<div class="page" id="pg-leave">
+<div class="fl ic jb mb4">
+<h2 class="sec" style="margin-bottom:0">การลา / วันหยุด</h2>
+<button class="btn bblue bsm" onclick="openM('mLeave')"><i class="fa-solid fa-plus"></i>แจ้งลา</button>
+</div>
+<div class="sgrid" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px">
+<div class="sc g"><div class="sc-ico"><i class="fa-solid fa-umbrella-beach"></i></div><div class="sc-num">18</div><div class="sc-lbl">ลาพักร้อนเฉลี่ย (วันเหลือ)</div></div>
+<div class="sc a"><div class="sc-ico"><i class="fa-solid fa-notes-medical"></i></div><div class="sc-num">3</div><div class="sc-lbl">ลาป่วยเดือนนี้</div></div>
+<div class="sc b"><div class="sc-ico"><i class="fa-solid fa-briefcase"></i></div><div class="sc-num">2</div><div class="sc-lbl">ลากิจเดือนนี้</div></div>
+</div>
+<div class="card"><div class="tw"><table><thead><tr>
+<th>พยาบาล</th><th>ประเภท</th><th>วันเริ่ม</th><th>วันสิ้นสุด</th><th>วัน</th><th>สถานะ</th><th>จัดการ</th>
+</tr></thead><tbody id="lvBody"></tbody></table></div></div>
+</div>
+<!-- ═══ SWAP ═══ -->
+<div class="page" id="pg-swap">
+<div class="fl ic jb mb4">
+<h2 class="sec" style="margin-bottom:0">ขอแลกเวร</h2>
+<button class="btn bblue bsm" onclick="openM('mSwap')"><i class="fa-solid fa-plus"></i>ส่งคำขอ</button>
+</div>
+<div class="card"><div class="tw"><table><thead><tr>
+<th>ผู้ขอ</th><th>เวรที่ขอ</th><th>แลกกับ</th><th>เวรที่รับ</th><th>วันที่ยื่น</th><th>สถานะ</th><th>จัดการ</th>
+</tr></thead><tbody id="swBody"></tbody></table></div></div>
+</div>
+<!-- ═══ NOTIFY ═══ -->
+<div class="page" id="pg-notify">
+<div class="fl ic jb mb4">
+<h2 class="sec" style="margin-bottom:0">การแจ้งเตือน</h2>
+<button class="btn bghost bsm" onclick="markAllRead()"><i class="fa-solid fa-check-double"></i>อ่านทั้งหมด</button>
+</div>
+<div class="card mb4">
+<div class="ch"><span class="ct"><i class="fa-solid fa-gear"></i>ตั้งค่าช่องทางแจ้งเตือน</span></div>
+<div class="cb">
+<div class="g3c">
+<div>
+<div class="semi tsm mb2">LINE Notify</div>
+<div class="fg mb2"><input id="lineToken" placeholder="LINE Notify Token"></div>
+<button class="btn bsm" style="background:#06c755;color:#fff;border-color:#06c755" onclick="testLine()"><i class="fa-brands fa-line"></i>ทดสอบ</button>
+</div>
+<div>
+<div class="semi tsm mb2">Email (Gmail)</div>
+<div class="fg mb2"><input id="emailTo" placeholder="อีเมลผู้รับ" value="stpfac@gmail.com"></div>
+<button class="btn bblue bsm" onclick="testEmail()"><i class="fa-solid fa-envelope"></i>ทดสอบ</button>
+</div>
+<div>
+<div class="semi tsm mb2">Telegram</div>
+<div class="fg mb2"><input id="tgToken" placeholder="Bot Token"></div>
+<div class="fg mb2"><input id="tgChat" placeholder="Chat ID"></div>
+<button class="btn bghost bsm" onclick="testTelegram()"><i class="fa-brands fa-telegram"></i>ทดสอบ</button>
+</div>
+</div>
+</div>
+</div>
+<div class="card"><div id="ntList" style="padding:0"></div></div>
+</div>
+<!-- ═══ REPORTS ═══ -->
+<div class="page" id="pg-reports">
+<h2 class="sec">รายงานและสถิติ</h2>
+<div class="g2c mb6">
+<div class="card">
+<div class="ch"><span class="ct"><i class="fa-solid fa-chart-bar"></i>ชั่วโมงทำงานรายบุคคล</span></div>
+<div class="cb"><canvas id="chWork" height="220"></canvas></div>
+</div>
+<div class="card">
+<div class="ch"><span class="ct"><i class="fa-solid fa-moon"></i>OT & เวรดึก</span></div>
+<div class="cb"><canvas id="chOT" height="220"></canvas></div>
+</div>
+</div>
+<div class="card">
+<div class="ch"><span class="ct"><i class="fa-solid fa-file-export"></i>ออกรายงาน</span></div>
+<div class="cb">
+<div class="g3c">
+<div>
+<div class="semi tsm mb2">ตารางเวร</div>
+<div class="fg mb2"><select><option>รายวัน</option><option>รายสัปดาห์</option><option>รายเดือน</option></select></div>
+<div class="fl g2"><button class="btn bred bsm" onclick="toast('กำลังสร้าง PDF','w')"><i class="fa-solid fa-file-pdf"></i>PDF</button><button class="btn bsm" style="background:#16a34a;color:#fff;border-color:#16a34a" onclick="toast('กำลังสร้าง Excel','w')"><i class="fa-solid fa-file-excel"></i>Excel</button></div>
+</div>
+<div>
+<div class="semi tsm mb2">สถิติปฏิบัติงาน</div>
+<div class="fg mb2"><select><option>มิถุนายน 2568</option><option>พฤษภาคม 2568</option></select></div>
+<div class="fl g2"><button class="btn bred bsm" onclick="toast('กำลังสร้าง PDF','w')"><i class="fa-solid fa-file-pdf"></i>PDF</button><button class="btn bsm" style="background:#16a34a;color:#fff;border-color:#16a34a" onclick="toast('กำลังสร้าง Excel','w')"><i class="fa-solid fa-file-excel"></i>Excel</button></div>
+</div>
+<div>
+<div class="semi tsm mb2">Google Sheets</div>
+<p class="txs tmut mb2">ส่งข้อมูลทั้งหมดไปยัง Google Sheets</p>
+<button class="btn bteal bsm bw" onclick="syncNow()"><i class="fa-brands fa-google"></i>Sync to Google Sheets</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ═══ AI ═══ -->
+<div class="page" id="pg-ai">
+<h2 class="sec">AI วิเคราะห์และคาดการณ์</h2>
+<div class="aipanel mb6">
+<h3 style="font-size:.95rem;font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:7px"><i class="fa-solid fa-robot"></i>NurseSync AI — Powered by Claude</h3>
+<p style="font-size:.83rem;opacity:.85;margin-bottom:14px">วิเคราะห์ภาระงาน ตรวจหาปัญหา และคาดการณ์กำลังคน</p>
+<div class="fl g2">
+<input id="aiQ" placeholder="ถามอะไรก็ได้ เช่น 'ใครทำงานมากที่สุด'" style="flex:1;padding:9px 13px;border-radius:var(--rsm);border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);color:#fff;font-family:'Sarabun',sans-serif;font-size:.88rem" onkeydown="if(event.key==='Enter')askAI()">
+<button class="btn bsm" style="background:#fff;color:var(--blue2);border:none" onclick="askAI()"><i class="fa-solid fa-paper-plane"></i>ถาม</button>
+</div>
+</div>
+<div class="card mb4" id="aiCard" style="display:none">
+<div class="ch"><span class="ct"><i class="fa-solid fa-brain"></i>AI ตอบ</span></div>
+<div class="cb" id="aiAns" style="white-space:pre-wrap;line-height:1.9;font-size:.9rem"></div>
+</div>
+<div class="g2c">
+<div class="card">
+<div class="ch"><span class="ct"><i class="fa-solid fa-triangle-exclamation"></i>ตรวจพบปัญหา</span></div>
+<div class="cb" id="aiIss"></div>
+</div>
+<div class="card">
+<div class="ch"><span class="ct"><i class="fa-solid fa-chart-line"></i>คาดการณ์กำลังคน</span></div>
+<div class="cb"><canvas id="chFore" height="200"></canvas></div>
+</div>
+</div>
+</div>
+<!-- ═══ SHIFT TYPES ═══ -->
+<div class="page" id="pg-types">
+<div class="fl ic jb mb4">
+<h2 class="sec" style="margin-bottom:0">ประเภทเวร</h2>
+<button class="btn bblue bsm" onclick="openM('mType')"><i class="fa-solid fa-plus"></i>เพิ่ม</button>
+</div>
+<div class="card"><div class="tw"><table><thead><tr>
+<th>รหัส</th><th>ชื่อ</th><th>เริ่ม</th><th>สิ้นสุด</th><th>ชั่วโมง</th><th>สี</th><th>สถานะ</th><th>ลบ</th>
+</tr></thead><tbody id="tyBody"></tbody></table></div></div>
+</div>
+<!-- ═══ SETUP ═══ -->
+<div class="page" id="pg-setup">
+<h2 class="sec">เชื่อมต่อ Google Sheets</h2>
+<div class="note"><i class="fa-solid fa-circle-info" style="margin-top:2px"></i>
+<div>เชื่อมต่อกับ Google Sheets ของ <b>stpfac@gmail.com</b> ผ่าน Google Apps Script — ทำตามขั้นตอนด้านล่าง</div>
+</div>
+<div class="setup-steps">
+<div class="sstep done" id="ss1"><div class="sstep-n"><i class="fa-solid fa-check"></i></div>สร้าง Spreadsheet</div>
+<div class="sstep on"   id="ss2"><div class="sstep-n">2</div>วาง Code.gs</div>
+<div class="sstep"     id="ss3"><div class="sstep-n">3</div>Deploy Web App</div>
+<div class="sstep"     id="ss4"><div class="sstep-n">4</div>ใส่ URL & ทดสอบ</div>
+</div>
+<div class="g2c">
+<div class="card">
+<div class="ch"><span class="ct"><i class="fa-brands fa-google"></i>ขั้นตอน 1–3: Apps Script</span></div>
+<div class="cb">
+<a href="https://sheets.new" target="_blank" class="btn bteal bw mb3" style="display:flex;justify-content:center"><i class="fa-brands fa-google"></i>เปิด Google Sheets ใหม่</a>
+<p class="tsm tmut mb3">จากนั้น: <b>Extensions → Apps Script</b> → วาง Code.gs (ไฟล์แนบ) → <b>Deploy → New Deployment → Web App → Anyone</b></p>
+<div class="semi tsm mb2">ไฟล์ Code.gs (ดาวน์โหลดไว้แล้ว):</div>
+<div class="gas-code" id="gasPreview">// โหลด Code.gs จากไฟล์ที่แนบมาพร้อมกัน
+// วางทั้งหมดใน Google Apps Script แล้ว Deploy</div>
+<button class="btn bline bsm bw mt4" onclick="copyCode()"><i class="fa-solid fa-copy"></i>คัดลอก Code.gs</button>
+</div>
+</div>
+<div class="card">
+<div class="ch"><span class="ct"><i class="fa-solid fa-link"></i>ขั้นตอน 4: เชื่อมต่อ</span></div>
+<div class="cb">
+<div class="fg"><label>Web App URL (จาก Deploy)</label><input id="gasUrl" placeholder="https://script.google.com/macros/s/.../exec"></div>
+<div class="fg"><label>Spreadsheet ID (จาก URL)</label><input id="sheetId" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms"></div>
+<div class="fg"><label>Google Email</label><input id="gEmail" value="stpfac@gmail.com"></div>
+<button class="btn bblue bw mb2" onclick="saveConf()"><i class="fa-solid fa-floppy-disk"></i>บันทึก</button>
+<button class="btn bteal bw mb2" onclick="testConn()"><i class="fa-solid fa-plug"></i>ทดสอบการเชื่อมต่อ</button>
+<button class="btn bgreen bw" onclick="initGSheets()"><i class="fa-solid fa-database"></i>สร้าง Sheets อัตโนมัติ</button>
+<div id="connStatus" class="mt4"></div>
+</div>
+</div>
+</div>
+<div class="card mt4">
+<div class="ch"><span class="ct"><i class="fa-solid fa-table"></i>โครงสร้าง Sheets (สร้างอัตโนมัติ)</span></div>
+<div class="cb">
+<div class="g3c">
+<div><div class="semi tsm tblue mb2">Staff</div><div class="txs tmut">id | prefix | first | last | position | dept | level | phone | email | status</div></div>
+<div><div class="semi tsm tblue mb2">Schedule</div><div class="txs tmut">nurseId | date | shift | dept | note | updatedAt</div></div>
+<div><div class="semi tsm tblue mb2">Leave</div><div class="txs tmut">id | nurseId | nurseName | type | start | end | days | reason | status | approvedBy</div></div>
+<div><div class="semi tsm tblue mb2">Swap</div><div class="txs tmut">id | requester | fromDate | fromShift | target | toDate | toShift | reason | status</div></div>
+<div><div class="semi tsm tblue mb2">ShiftTypes</div><div class="txs tmut">code | name | startTime | endTime | hours | color | active</div></div>
+<div><div class="semi tsm tblue mb2">Notifications</div><div class="txs tmut">ts | type | message | recipient | channel | status</div></div>
+</div>
+</div>
+</div>
+</div>
+</div><!-- content -->
+</main>
+</div>
+</div><!-- app -->
+<!-- ══════ MODALS ══════ -->
+<!-- Staff -->
+<div class="moverlay" id="mStaff">
+<div class="modal">
+<div class="mh"><span class="mt"><i class="fa-solid fa-user-plus"></i> เพิ่ม/แก้ไขพยาบาล</span><button class="mclose" onclick="closeM('mStaff')"><i class="fa-solid fa-xmark"></i></button></div>
+<div class="mb">
+<div class="fr mb3"><div class="fg"><label>รหัสพนักงาน *</label><input id="sId" placeholder="N011"></div><div class="fg"><label>คำนำหน้า</label><select id="sPfx"><option>นาง</option><option>นางสาว</option><option>นาย</option></select></div></div>
+<div class="fr mb3"><div class="fg"><label>ชื่อ *</label><input id="sF" placeholder="ชื่อ"></div><div class="fg"><label>นามสกุล *</label><input id="sL" placeholder="นามสกุล"></div></div>
+<div class="fr mb3">
+<div class="fg"><label>ตำแหน่ง</label><select id="sPos"><option>พยาบาลวิชาชีพ</option><option>หัวหน้าหอผู้ป่วย</option><option>ผู้ช่วยพยาบาล</option></select></div>
+<div class="fg"><label>แผนก</label><select id="sDept"><option>ICU</option><option>ER</option><option>OPD</option><option>Ward A</option><option>Ward B</option><option>OR</option></select></div>
+</div>
+<div class="fr mb3">
+<div class="fg"><label>ระดับ</label><select id="sLvl"><option>RN</option><option>SRN</option><option>CN</option></select></div>
+<div class="fg"><label>สถานะ</label><select id="sSt"><option>ปฏิบัติงาน</option><option>ลาพักร้อน</option><option>ลาออก</option></select></div>
+</div>
+<div class="fr"><div class="fg"><label>เบอร์โทร</label><input id="sPh" placeholder="08X-XXX-XXXX"></div><div class="fg"><label>อีเมล</label><input id="sEm" placeholder="email@hosp.com"></div></div>
+</div>
+<div class="mf"><button class="btn bghost" onclick="closeM('mStaff')">ยกเลิก</button><button class="btn bblue" onclick="addStaff()"><i class="fa-solid fa-floppy-disk"></i>บันทึก</button></div>
+</div>
+</div>
+<!-- Add Shift -->
+<div class="moverlay" id="mAddShift">
+<div class="modal">
+<div class="mh"><span class="mt"><i class="fa-solid fa-calendar-plus"></i> เพิ่มเวร</span><button class="mclose" onclick="closeM('mAddShift')"><i class="fa-solid fa-xmark"></i></button></div>
+<div class="mb">
+<div class="fg mb3"><label>พยาบาล *</label><select id="shNurse" style="width:100%"></select></div>
+<div class="fr mb3">
+<div class="fg"><label>วันที่ *</label><input type="date" id="shDate"></div>
+<div class="fg"><label>ประเภทเวร *</label><select id="shType"><option value="M">เวรเช้า (06-14)</option><option value="A">เวรบ่าย (14-22)</option><option value="N">เวรดึก (22-06)</option><option value="O">On Call</option><option value="off">วันหยุด</option></select></div>
+</div>
+<div class="fg"><label>หมายเหตุ</label><textarea id="shNote" rows="2"></textarea></div>
+</div>
+<div class="mf"><button class="btn bghost" onclick="closeM('mAddShift')">ยกเลิก</button><button class="btn bblue" onclick="addShift()"><i class="fa-solid fa-floppy-disk"></i>บันทึก</button></div>
+</div>
+</div>
+<!-- Leave -->
+<div class="moverlay" id="mLeave">
+<div class="modal">
+<div class="mh"><span class="mt"><i class="fa-solid fa-calendar-xmark"></i> แจ้งการลา</span><button class="mclose" onclick="closeM('mLeave')"><i class="fa-solid fa-xmark"></i></button></div>
+<div class="mb">
+<div class="fg mb3"><label>พยาบาล *</label><select id="lvNurse" style="width:100%"></select></div>
+<div class="fr mb3">
+<div class="fg"><label>ประเภทการลา</label><select id="lvType"><option>ลาพักร้อน</option><option>ลาป่วย</option><option>ลากิจ</option><option>ลาคลอด</option></select></div>
+<div class="fg"></div>
+</div>
+<div class="fr mb3"><div class="fg"><label>วันเริ่ม *</label><input type="date" id="lvS"></div><div class="fg"><label>วันสิ้นสุด *</label><input type="date" id="lvE"></div></div>
+<div class="fg"><label>เหตุผล</label><textarea id="lvR" rows="2"></textarea></div>
+</div>
+<div class="mf"><button class="btn bghost" onclick="closeM('mLeave')">ยกเลิก</button><button class="btn bblue" onclick="addLeave()"><i class="fa-solid fa-floppy-disk"></i>ส่งคำขอ</button></div>
+</div>
+</div>
+<!-- Swap -->
+<div class="moverlay" id="mSwap">
+<div class="modal">
+<div class="mh"><span class="mt"><i class="fa-solid fa-arrows-rotate"></i> ขอแลกเวร</span><button class="mclose" onclick="closeM('mSwap')"><i class="fa-solid fa-xmark"></i></button></div>
+<div class="mb">
+<div class="fr mb3"><div class="fg"><label>ผู้ขอ *</label><select id="swReq" style="width:100%"></select></div><div class="fg"><label>แลกกับ *</label><select id="swTgt" style="width:100%"></select></div></div>
+<div class="fr mb3"><div class="fg"><label>วันที่เวรที่ขอ *</label><input type="date" id="swFD"></div><div class="fg"><label>เวร</label><select id="swFS"><option value="M">เช้า</option><option value="A">บ่าย</option><option value="N">ดึก</option><option value="O">On Call</option></select></div></div>
+<div class="fr mb3"><div class="fg"><label>วันที่เวรที่รับ *</label><input type="date" id="swTD"></div><div class="fg"><label>เวร</label><select id="swTS"><option value="M">เช้า</option><option value="A">บ่าย</option><option value="N">ดึก</option><option value="O">On Call</option></select></div></div>
+<div class="fg"><label>เหตุผล</label><textarea id="swR" rows="2"></textarea></div>
+</div>
+<div class="mf"><button class="btn bghost" onclick="closeM('mSwap')">ยกเลิก</button><button class="btn bblue" onclick="addSwap()"><i class="fa-solid fa-paper-plane"></i>ส่งคำขอ</button></div>
+</div>
+</div>
+<!-- Shift Type -->
+<div class="moverlay" id="mType">
+<div class="modal">
+<div class="mh"><span class="mt"><i class="fa-solid fa-clock"></i> เพิ่มประเภทเวร</span><button class="mclose" onclick="closeM('mType')"><i class="fa-solid fa-xmark"></i></button></div>
+<div class="mb">
+<div class="fr mb3"><div class="fg"><label>รหัส</label><input id="tyC" placeholder="เช่น M, A, N"></div><div class="fg"><label>ชื่อ</label><input id="tyN" placeholder="เวรเช้า"></div></div>
+<div class="fr mb3"><div class="fg"><label>เวลาเริ่ม</label><input type="time" id="tyS" value="06:00"></div><div class="fg"><label>เวลาสิ้นสุด</label><input type="time" id="tyE" value="14:00"></div></div>
+<div class="fg"><label>สี</label><input type="color" id="tyCol" value="#2563b8"></div>
+</div>
+<div class="mf"><button class="btn bghost" onclick="closeM('mType')">ยกเลิก</button><button class="btn bblue" onclick="addType()"><i class="fa-solid fa-floppy-disk"></i>บันทึก</button></div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>var DEFAULT_EMAIL      = 'stpfac@gmail.com';
+var DEFAULT_LINE_TOKEN = 'd0W5Q74KFbMPCNEackqEG378go616Z9PCMwjBE8e03x025rWgr3JlAIjCHU8tpcy8KY+Y31ZjVr6MJD/OwVwVB/qf4ECLMuLZK/UsKBLWhSlJFUhlsnXN5/OTFb/tTfWhU5TCBJUmrDYHFlUbkL4DwdB04t89/1O/w1cDnyilFU=';
+function conf(k, v) {
+if (v !== undefined) localStorage.setItem('ns_' + k, v);
+return localStorage.getItem('ns_' + k) || '';
+}
+var role = 'admin';
+var me   = null;
+var sched = {};   
+var CH = {};      
+var autoResult = {};
+var USERS = [
+{ id:'admin001', pass:'1234', role:'admin', name:'ผู้ดูแลระบบ',      dept:'IT'    },
+{ id:'head001',  pass:'1234', role:'head',  name:'พว.สุภาพร มั่นคง', dept:'ICU'   },
+{ id:'nurse001', pass:'1234', role:'nurse', name:'พว.นภา สายใจ',     dept:'Ward A'},
+];
+var staff = [
+{id:'N001',pfx:'นาง',   f:'สุภาพร', l:'มั่นคง',   pos:'หัวหน้าหอผู้ป่วย',dept:'ICU',   lvl:'SRN',ph:'081-234-5678',em:'supaporn@hosp.com', st:'ปฏิบัติงาน',sh:20},
+{id:'N002',pfx:'นางสาว',f:'นภา',    l:'สายใจ',    pos:'พยาบาลวิชาชีพ',  dept:'Ward A',lvl:'RN', ph:'082-345-6789',em:'napa@hosp.com',      st:'ปฏิบัติงาน',sh:18},
+{id:'N003',pfx:'นาง',   f:'มาลี',   l:'ใจดี',     pos:'พยาบาลวิชาชีพ',  dept:'ICU',   lvl:'RN', ph:'083-456-7890',em:'malee@hosp.com',     st:'ปฏิบัติงาน',sh:22},
+{id:'N004',pfx:'นางสาว',f:'ปัทมา',  l:'รักดี',    pos:'พยาบาลวิชาชีพ',  dept:'ER',    lvl:'RN', ph:'084-567-8901',em:'patama@hosp.com',    st:'ปฏิบัติงาน',sh:19},
+{id:'N005',pfx:'นาง',   f:'รัตนา',  l:'แสงทอง',  pos:'พยาบาลวิชาชีพ',  dept:'Ward B',lvl:'RN', ph:'085-678-9012',em:'ratana@hosp.com',    st:'ปฏิบัติงาน',sh:17},
+{id:'N006',pfx:'นางสาว',f:'กาญจนา', l:'ศรีสุข',  pos:'ผู้ช่วยพยาบาล',  dept:'OPD',   lvl:'CN', ph:'086-789-0123',em:'kanya@hosp.com',     st:'ปฏิบัติงาน',sh:15},
+{id:'N007',pfx:'นาย',   f:'ธีรพล',  l:'วงศ์ดี',  pos:'พยาบาลวิชาชีพ',  dept:'OR',    lvl:'RN', ph:'087-890-1234',em:'theerapol@hosp.com', st:'ปฏิบัติงาน',sh:21},
+{id:'N008',pfx:'นางสาว',f:'วรรณา',  l:'ทองใส',   pos:'พยาบาลวิชาชีพ',  dept:'ICU',   lvl:'RN', ph:'088-901-2345',em:'wanna@hosp.com',     st:'ลาพักร้อน', sh:12},
+{id:'N009',pfx:'นาง',   f:'สมจิตร', l:'พลอยงาม', pos:'พยาบาลวิชาชีพ',  dept:'Ward A',lvl:'RN', ph:'089-012-3456',em:'somjit@hosp.com',    st:'ปฏิบัติงาน',sh:20},
+{id:'N010',pfx:'นางสาว',f:'อรุณี',  l:'สุขสันต์',pos:'พยาบาลวิชาชีพ',  dept:'ER',    lvl:'RN', ph:'081-123-4567',em:'arunee@hosp.com',    st:'ปฏิบัติงาน',sh:18},
+];
+var leaves = [
+{id:'L001',nId:'N008',name:'พว.วรรณา ทองใส',   type:'ลาพักร้อน',s:'2025-06-10',e:'2025-06-20',days:9, st:'อนุมัติ'},
+{id:'L002',nId:'N003',name:'พว.มาลี ใจดี',     type:'ลาป่วย',   s:'2025-06-18',e:'2025-06-19',days:2, st:'อนุมัติ'},
+{id:'L003',nId:'N005',name:'พว.รัตนา แสงทอง', type:'ลากิจ',    s:'2025-06-25',e:'2025-06-25',days:1, st:'รออนุมัติ'},
+{id:'L004',nId:'N002',name:'พว.นภา สายใจ',     type:'ลาคลอด',  s:'2025-07-01',e:'2025-09-30',days:90,st:'รออนุมัติ'},
+];
+var swaps = [
+{id:'S001',req:'พว.นภา สายใจ',   fd:'2025-06-26',fs:'N',tgt:'พว.มาลี ใจดี',      td:'2025-06-28',ts:'M',sub:'2025-06-20',st:'รออนุมัติ'},
+{id:'S002',req:'พว.ปัทมา รักดี', fd:'2025-06-27',fs:'A',tgt:'พว.รัตนา แสงทอง', td:'2025-06-29',ts:'A',sub:'2025-06-21',st:'รออนุมัติ'},
+{id:'S003',req:'พว.มาลี ใจดี',   fd:'2025-06-15',fs:'M',tgt:'พว.สมจิตร พลอยงาม',td:'2025-06-16',ts:'M',sub:'2025-06-12',st:'อนุมัติ'},
+];
+var shiftTypes = [
+{code:'M',name:'เวรเช้า (Morning)',    s:'06:00',e:'14:00',h:8, col:'#2563b8'},
+{code:'A',name:'เวรบ่าย (Afternoon)', s:'14:00',e:'22:00',h:8, col:'#d97706'},
+{code:'N',name:'เวรดึก (Night)',       s:'22:00',e:'06:00',h:8, col:'#7c3aed'},
+{code:'O',name:'On Call',              s:'00:00',e:'23:59',h:12,col:'#dc2626'},
+];
+var notifs = [
+{id:'NT1',type:'shift', msg:'คุณมีเวรดึกพรุ่งนี้ (27 มิ.ย.) — Ward A',             time:'2 ชม.ที่แล้ว', read:false},
+{id:'NT2',type:'swap',  msg:'พว.นภา ขอแลกเวรกับคุณ วันที่ 28 มิ.ย.',              time:'3 ชม.ที่แล้ว', read:false},
+{id:'NT3',type:'leave', msg:'คำขอลาของ พว.วรรณา ได้รับอนุมัติแล้ว',               time:'1 วันที่แล้ว', read:true},
+{id:'NT4',type:'system',msg:'ระบบจัดตารางเวรเดือน ก.ค. เสร็จสิ้นแล้ว',           time:'1 วันที่แล้ว', read:true},
+];
+var activities = [
+{icon:'fa-user-plus',      col:'var(--green)',   msg:'เพิ่มพยาบาล: พว.กาญจนา ศรีสุข', time:'10:32'},
+{icon:'fa-calendar-check', col:'var(--blue2)',   msg:'จัดตารางเวร ก.ค. เสร็จสิ้น',    time:'09:15'},
+{icon:'fa-arrows-rotate',  col:'var(--amber)',   msg:'ขอแลกเวร: พว.นภา ↔ พว.มาลี',   time:'08:45'},
+{icon:'fa-bell',           col:'var(--teal)',    msg:'แจ้งเตือนเวรพรุ่งนี้ 36 คน',    time:'08:00'},
+{icon:'fa-calendar-xmark', col:'var(--red)',     msg:'พว.รัตนา ขอลากิจ 25 มิ.ย.',     time:'เมื่อวาน'},
+];
+var GAS_CODE = '// ดูไฟล์ Code.gs ที่ดาวน์โหลดมาพร้อมกัน\n
+document.addEventListener('DOMContentLoaded', function() {
+buildSampleSched();
+tick();
+setInterval(tick, 60000);
+fillMonthSel();
+restoreConf();
+document.getElementById('gasPreview').textContent = GAS_CODE;
+var ltEl = document.getElementById('lineToken');
+if (ltEl && !ltEl.value) ltEl.value = DEFAULT_LINE_TOKEN;
+var emEl = document.getElementById('emailTo');
+if (emEl && !emEl.value) emEl.value = DEFAULT_EMAIL;
+var gmEl = document.getElementById('gEmail');
+if (gmEl) gmEl.value = DEFAULT_EMAIL;
+document.querySelectorAll('.moverlay').forEach(function(o) {
+o.addEventListener('click', function(e){ if(e.target===o) o.classList.remove('on'); });
+});
+});
+function tick() {
+var now = new Date();
+var el = document.getElementById('tbDate');
+if (el) el.textContent = now.toLocaleDateString('th-TH',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+}
+function fillMonthSel() {
+var mn = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+var sel = document.getElementById('schMonth');
+if (!sel) return;
+mn.forEach(function(m,i) {
+var opt = document.createElement('option');
+opt.value = '2025-' + String(i+1).padStart(2,'0');
+opt.textContent = m + ' 2568';
+if (i===5) opt.selected = true;
+sel.appendChild(opt);
+});
+}
+function restoreConf() {
+var url = conf('gasUrl');
+var sid = conf('sheetId');
+var em  = conf('email') || 'stpfac@gmail.com';
+if (url) document.getElementById('gasUrl').value = url;
+if (sid) document.getElementById('sheetId').value = sid;
+document.getElementById('gEmail').value = em;
+}
+function buildSampleSched() {
+var codes = ['M','A','N','M','A','off','off'];
+for (var d=1; d<=30; d++) {
+var dow = new Date(2025,5,d).getDay();
+staff.forEach(function(n,ni) {
+var date = '2025-06-' + String(d).padStart(2,'0');
+var k = n.id + '|' + date;
+var isWE = dow===0 || dow===6;
+if (isWE && (ni+Math.floor(d/7))%2===0) { sched[k]='off'; return; }
+sched[k] = codes[(ni+d)%codes.length] || 'M';
+if (sched[k]==='off' && !isWE) sched[k] = codes[(ni+d)%4];
+});
+}
+leaves.forEach(function(lv) {
+if (lv.st !== 'อนุมัติ') return;
+var cur = new Date(lv.s);
+var end = new Date(lv.e);
+while (cur <= end) {
+var dt = cur.toISOString().split('T')[0];
+sched[lv.nId + '|' + dt] = 'leave';
+cur.setDate(cur.getDate()+1);
+}
+});
+}
+function selRole(r, el) {
+role = r;
+document.querySelectorAll('.rbtn').forEach(function(b){ b.classList.remove('on'); });
+el.classList.add('on');
+var demos = {admin:'admin001', head:'head001', nurse:'nurse001'};
+document.getElementById('lu').value = demos[r];
+}
+function doLogin() {
+var uid = document.getElementById('lu').value.trim();
+var pwd = document.getElementById('lp').value;
+var u = USERS.find(function(x){ return x.id===uid && x.pass===pwd; });
+if (!u) { toast('รหัสไม่ถูกต้อง','e'); return; }
+me = u; role = u.role;
+showLoad();
+setTimeout(function() {
+document.getElementById('login').style.display='none';
+document.getElementById('app').style.display='block';
+var init = u.name[0] || 'A';
+setEl('sbAv', init); setEl('tbAv', init);
+setEl('sbName', u.name);
+setEl('sbRole', {admin:'ผู้ดูแลระบบ',head:'หัวหน้าหอผู้ป่วย',nurse:'พยาบาล'}[u.role]);
+applyRoleNav();
+initDash();
+renderStaff(); renderSchedule(); renderLeaves(); renderSwaps(); renderTypes(); renderNotifs();
+fillNurseSelects();
+hideLoad();
+go('dashboard', null);
+toast('ยินดีต้อนรับ ' + u.name + ' 🏥', 's');
+}, 700);
+}
+function doLogout() {
+if (!confirm('ออกจากระบบ?')) return;
+me = null;
+document.getElementById('app').style.display='none';
+document.getElementById('login').style.display='flex';
+Object.values(CH).forEach(function(c){ if(c&&c.destroy) c.destroy(); });
+CH = {};
+}
+function applyRoleNav() {
+if (role==='nurse') {
+['จัดเวรอัตโนมัติ','ข้อมูลพยาบาล','รายงาน','AI วิเคราะห์','ประเภทเวร','Google Sheets'].forEach(function(t){
+document.querySelectorAll('.ni').forEach(function(el){
+if(el.textContent.trim().includes(t)) el.style.display='none';
+});
+});
+}
+}
+var titles = {dashboard:'Dashboard',schedule:'ตารางเวร',auto:'จัดเวรอัตโนมัติ',
+staff:'ข้อมูลพยาบาล',leave:'การลา',swap:'ขอแลกเวร',notify:'การแจ้งเตือน',
+reports:'รายงาน',ai:'AI วิเคราะห์',types:'ประเภทเวร',setup:'Google Sheets'};
+function go(pageId, navEl) {
+document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('on'); });
+var pg = document.getElementById('pg-'+pageId);
+if (pg) pg.classList.add('on');
+document.querySelectorAll('.ni').forEach(function(n){ n.classList.remove('on'); });
+if (navEl) navEl.classList.add('on');
+setEl('tbTitle', titles[pageId] || pageId);
+if (pageId==='reports') renderReportCharts();
+if (pageId==='ai')      renderAIPage();
+}
+function initDash() {
+renderHeatmap();
+renderFeed();
+renderAIMain();
+setTimeout(function(){ renderPie(); renderWeekly(); }, 100);
+}
+function renderHeatmap() {
+var g = document.getElementById('hmap');
+if (!g) return;
+g.innerHTML = '';
+var first = new Date(2025,5,1).getDay();
+for (var i=0;i<first;i++) {
+var b=document.createElement('div'); b.style.aspectRatio='1'; g.appendChild(b);
+}
+for (var d=1;d<=30;d++) {
+var lv = Math.floor(Math.random()*6);
+var c = document.createElement('div');
+c.className = 'hcell h'+lv;
+c.textContent = d;
+c.title = d+' มิ.ย. — ภาระงาน: '+(lv*20)+'%';
+g.appendChild(c);
+}
+}
+function renderFeed() {
+var el = document.getElementById('actFeed');
+if (!el) return;
+el.innerHTML = activities.map(function(a){
+return '<div style="display:flex;align-items:flex-start;gap:11px;padding:11px 16px;border-bottom:1px solid var(--border)">'
++'<div style="width:30px;height:30px;border-radius:7px;background:'+a.col+'20;display:flex;align-items:center;justify-content:center;flex-shrink:0">'
++'<i class="fa-solid '+a.icon+'" style="color:'+a.col+';font-size:.82rem"></i></div>'
++'<div><div style="font-size:.83rem">'+a.msg+'</div><div style="font-size:.72rem;color:var(--text3);margin-top:2px">'+a.time+'</div></div></div>';
+}).join('');
+}
+function renderAIMain() {
+var el = document.getElementById('aiMain');
+if (!el) return;
+var rows = [
+'พว.มาลี ใจดี มีเวรดึก 4 วันติดต่อกัน (22-25 มิ.ย.) — ควรจัดพักอย่างน้อย 1 วัน',
+'แผนก ICU มีกำลังคนต่ำกว่าเกณฑ์วันที่ 28 มิ.ย. (มี 3 คน จำเป็น 4 คน)',
+'ภาระงานรวม RN เกินมาตรฐาน เฉลี่ย 22.4 ชม./คน/สัปดาห์',
+];
+el.innerHTML = rows.map(function(r){
+return '<div class="airow"><i class="fa-solid fa-triangle-exclamation"></i><span>'+r+'</span></div>';
+}).join('');
+}
+function renderPie() {
+var ctx = document.getElementById('chPie');
+if (!ctx) return;
+if (CH.pie) CH.pie.destroy();
+CH.pie = new Chart(ctx, {
+type:'doughnut',
+data:{ labels:['เวรเช้า','เวรบ่าย','เวรดึก','On Call'],
+datasets:[{data:[14,12,8,2],backgroundColor:['#2563b8','#d97706','#7c3aed','#dc2626'],borderWidth:2,borderColor:'#fff'}]},
+options:{cutout:'68%',plugins:{legend:{display:false}},responsive:false}
+});
+}
+function renderWeekly() {
+var ctx = document.getElementById('chWeek');
+if (!ctx) return;
+if (CH.week) CH.week.destroy();
+CH.week = new Chart(ctx, {
+type:'bar',
+data:{labels:['จ','อ','พ','พฤ','ศ','ส','อา'],
+datasets:[
+{label:'เช้า', data:[12,13,12,14,12,8,6], backgroundColor:'rgba(37,99,184,.7)',borderRadius:4},
+{label:'บ่าย', data:[10,11,10,11,10,7,5], backgroundColor:'rgba(217,119,6,.7)', borderRadius:4},
+{label:'ดึก',  data:[7,8,7,8,7,5,4],      backgroundColor:'rgba(124,58,237,.7)',borderRadius:4},
+]},
+options:{responsive:true,scales:{x:{grid:{display:false}},y:{beginAtZero:true,grid:{color:'#f1f5f9'}}},
+plugins:{legend:{position:'bottom',labels:{font:{family:'Sarabun'}}}}}
+});
+}
+function renderSchedule() {
+var mv  = document.getElementById('schMonth') ? document.getElementById('schMonth').value : '2025-06';
+var yr  = parseInt(mv.split('-')[0]);
+var mo  = parseInt(mv.split('-')[1]);
+var dim = new Date(yr, mo, 0).getDate();
+var fd  = document.getElementById('fDept')  ? document.getElementById('fDept').value  : '';
+var fs  = document.getElementById('fShift') ? document.getElementById('fShift').value : '';
+var list = fd ? staff.filter(function(s){ return s.dept===fd; }) : staff;
+var head = document.getElementById('schHead');
+if (!head) return;
+var days = ['อา','จ','อ','พ','พฤ','ศ','ส'];
+var hhtml = '<tr><th style="position:sticky;left:0;z-index:2">พยาบาล</th><th>แผนก</th>';
+for (var d=1;d<=dim;d++) {
+var isWE = new Date(yr,mo-1,d).getDay()%6===0;
+hhtml += '<th style="'+(isWE?'background:#162f6a;':'')+'">' + d + '<br><span style="font-weight:400;opacity:.7">'+days[new Date(yr,mo-1,d).getDay()]+'</span></th>';
+}
+hhtml += '<th>รวม</th></tr>';
+head.innerHTML = hhtml;
+var body = document.getElementById('schBody');
+if (!body) return;
+body.innerHTML = list.map(function(n) {
+var tot=0, ni=0, cells='';
+for (var d=1;d<=dim;d++) {
+var date = yr+'-'+String(mo).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+var sv = sched[n.id+'|'+date] || 'off';
+if (fs && sv!==fs) sv='off';
+if (sv!=='off'&&sv!=='leave') { tot++; if(sv==='N') ni++; }
+var lbl={M:'M',A:'A',N:'N',O:'OC',off:'-',leave:'L'}[sv]||sv;
+var cls = sv==='leave' ? 'cleave' : 'c'+sv;
+cells += '<td><span class="chip '+cls+'" onclick="toggleShift(\''+n.id+'\',\''+date+'\',\''+sv+'\')" title="'+shiftName(sv)+'">'+lbl+'</span></td>';
+}
+return '<tr>'
++'<td class="nn" style="background:#fff"><div style="display:flex;align-items:center;gap:7px">'
++'<div class="av">'+n.f[0]+'</div><div><div style="font-size:.83rem">'+n.pfx+n.f+' '+n.l+'</div>'
++'<div style="font-size:.7rem;color:var(--text3)">ดึก '+ni+' วัน</div></div></div></td>'
++'<td><span class="badge bb">'+n.dept+'</span></td>'
++cells
++'<td style="font-weight:700;color:var(--blue2)">'+tot+'</td></tr>';
+}).join('');
+}
+function shiftName(c) {
+return {M:'เวรเช้า 06-14',A:'เวรบ่าย 14-22',N:'เวรดึก 22-06',O:'On Call',off:'หยุด',leave:'ลา'}[c]||c;
+}
+function toggleShift(nId, date, cur) {
+if (role==='nurse') return;
+var seq = ['M','A','N','O','off','leave'];
+var next = seq[(seq.indexOf(cur)+1)%seq.length];
+sched[nId+'|'+date] = next;
+renderSchedule();
+}
+function addShift() {
+var nId = document.getElementById('shNurse').value;
+var dt  = document.getElementById('shDate').value;
+var typ = document.getElementById('shType').value;
+if (!nId||!dt) { toast('กรุณากรอกข้อมูล','e'); return; }
+sched[nId+'|'+dt] = typ;
+closeM('mAddShift');
+renderSchedule();
+toast('บันทึกเวรสำเร็จ','s');
+syncNow();
+}
+function runAuto() {
+showLoad();
+setTimeout(function() {
+var mv = document.getElementById('autoMo').value || '2025-07';
+var yr = parseInt(mv.split('-')[0]);
+var mo = parseInt(mv.split('-')[1]);
+var dim = new Date(yr,mo,0).getDate();
+var maxNi  = parseInt(document.getElementById('maxNi').value)||8;
+var restNi = parseInt(document.getElementById('restN').value)||1;
+var dept   = document.getElementById('autoDept').value;
+var list   = dept ? staff.filter(function(s){ return s.dept===dept; }) : staff;
+var codes  = ['M','A','N'];
+autoResult = {};
+list.forEach(function(n,ni) {
+var nightCnt=0, lastNight=false, consec=0;
+for (var d=1;d<=dim;d++) {
+var date = yr+'-'+String(mo).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+var k = n.id+'|'+date;
+var dow = new Date(yr,mo-1,d).getDay();
+var onLv = leaves.some(function(lv){
+return lv.nId===n.id && lv.st==='อนุมัติ' && new Date(lv.s)<=new Date(date) && new Date(date)<=new Date(lv.e);
+});
+if (onLv) { autoResult[k]='leave'; lastNight=false; consec=0; continue; }
+if (lastNight && restNi>0) { autoResult[k]='off'; lastNight=false; consec=0; continue; }
+if ((dow===0||dow===6) && (ni+Math.floor(d/7))%2===0) { autoResult[k]='off'; consec=0; continue; }
+if (consec>=6) { autoResult[k]='off'; consec=0; continue; }
+var sh = codes[(ni*7+d)%3];
+if (sh==='N' && nightCnt>=maxNi) sh='M';
+autoResult[k]=sh;
+if (sh==='N'){ nightCnt++; lastNight=true; } else lastNight=false;
+consec++;
+}
+});
+var card = document.getElementById('autoResult');
+if (card) card.style.display='block';
+var head = document.getElementById('autoHead');
+var body = document.getElementById('autoBody');
+if (!head||!body) { hideLoad(); return; }
+var days=['อา','จ','อ','พ','พฤ','ศ','ส'];
+var hhtml='<tr><th style="position:sticky;left:0">พยาบาล</th>';
+for(var d=1;d<=dim;d++) hhtml+='<th>'+d+'<br><small style="font-weight:400;opacity:.7">'+days[new Date(yr,mo-1,d).getDay()]+'</small></th>';
+hhtml+='<th>รวม</th></tr>';
+head.innerHTML=hhtml;
+body.innerHTML=list.map(function(n){
+var tot=0,cells='';
+for(var d=1;d<=dim;d++){
+var date=yr+'-'+String(mo).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+var sv=autoResult[n.id+'|'+date]||'off';
+if(sv!=='off'&&sv!=='leave') tot++;
+var lbl={M:'M',A:'A',N:'N',O:'OC',off:'-',leave:'L'}[sv]||sv;
+var cls=sv==='leave'?'cleave':'c'+sv;
+cells+='<td><span class="chip '+cls+'">'+lbl+'</span></td>';
+}
+return '<tr><td class="nn" style="background:#fff">'+n.pfx+n.f+' '+n.l+'</td>'+cells+'<td style="font-weight:700">'+tot+'</td></tr>';
+}).join('');
+hideLoad();
+toast('✨ AI จัดตารางเสร็จ! ตรวจสอบแล้วกด "นำไปใช้"','s');
+card.scrollIntoView({behavior:'smooth'});
+}, 1000);
+}
+function applyAuto() {
+if (!Object.keys(autoResult).length) return;
+Object.assign(sched, autoResult);
+renderSchedule();
+go('schedule', null);
+toast('นำตารางเวรไปใช้งานแล้ว','s');
+syncNow();
+}
+function renderStaff() {
+var q = (document.getElementById('stSearch')||{value:''}).value.toLowerCase();
+var list = q ? staff.filter(function(s){ return (s.f+s.l+s.id).toLowerCase().includes(q); }) : staff;
+var body = document.getElementById('stBody');
+if (!body) return;
+body.innerHTML = list.map(function(s){
+var stCls = {ปฏิบัติงาน:'bg',ลาพักร้อน:'ba',ลาออก:'br'}[s.st]||'bgr';
+return '<tr>'
++'<td><code style="font-family:\'IBM Plex Mono\';font-size:.8rem">'+s.id+'</code></td>'
++'<td><div style="display:flex;align-items:center;gap:7px"><div class="av">'+s.f[0]+'</div>'
++'<div><div style="font-weight:600;font-size:.88rem">'+s.pfx+s.f+' '+s.l+'</div>'
++'<div style="font-size:.72rem;color:var(--text3)">'+s.em+'</div></div></div></td>'
++'<td>'+s.pos+'</td><td><span class="badge bb">'+s.dept+'</span></td>'
++'<td><span class="badge bp">'+s.lvl+'</span></td><td>'+s.ph+'</td>'
++'<td><span class="badge '+stCls+'">'+s.st+'</span></td>'
++'<td><div style="display:flex;align-items:center;gap:6px"><b style="font-family:\'IBM Plex Mono\'">'+s.sh+'</b>'
++'<div style="flex:1;min-width:50px"><div class="pbw"><div class="pb" style="width:'+Math.min(100,(s.sh/22)*100)+'%"></div></div></div></div></td>'
++'<td><div class="fl g2">'
++'<button class="btn bline bsm" onclick="editStaff(\''+s.id+'\')"><i class="fa-solid fa-pen"></i></button>'
++'<button class="btn bghost bsm" onclick="delStaff(\''+s.id+'\')"><i class="fa-solid fa-trash" style="color:var(--red)"></i></button>'
++'</div></td></tr>';
+}).join('');
+}
+function addStaff() {
+var id=v('sId'), f=v('sF'), l=v('sL');
+if(!id||!f||!l){ toast('กรุณากรอกรหัส ชื่อ นามสกุล','e'); return; }
+if(staff.find(function(s){ return s.id===id; })){ toast('รหัสซ้ำ','e'); return; }
+staff.push({id,pfx:v('sPfx'),f,l,pos:v('sPos'),dept:v('sDept'),lvl:v('sLvl'),ph:v('sPh'),em:v('sEm'),st:v('sSt'),sh:0});
+closeM('mStaff');
+renderStaff(); fillNurseSelects();
+toast('เพิ่ม '+v('sPfx')+f+' '+l+' สำเร็จ','s');
+syncNow();
+}
+function editStaff(id) { toast('แก้ไข ID: '+id+' (เปิดฟอร์ม)','info'); }
+function delStaff(id) {
+var s=staff.find(function(x){ return x.id===id; });
+if(!s||!confirm('ลบ '+s.pfx+s.f+' '+s.l+'?')) return;
+staff=staff.filter(function(x){ return x.id!==id; });
+renderStaff(); toast('ลบสำเร็จ','s');
+}
+function renderLeaves() {
+var body=document.getElementById('lvBody');
+if(!body) return;
+body.innerHTML=leaves.map(function(lv){
+var cls={อนุมัติ:'bg',ปฏิเสธ:'br',รออนุมัติ:'ba'}[lv.st]||'bgr';
+var tc={ลาพักร้อน:'bt',ลาป่วย:'br',ลากิจ:'ba',ลาคลอด:'bp'}[lv.type]||'bgr';
+var btns='';
+if(lv.st==='รออนุมัติ'&&role!=='nurse')
+btns='<button class="btn bgreen bsm" onclick="approveLv(\''+lv.id+'\')"><i class="fa-solid fa-check"></i>อนุมัติ</button>'
++'<button class="btn bred bsm" onclick="rejectLv(\''+lv.id+'\')"><i class="fa-solid fa-xmark"></i></button>';
+return '<tr><td><div class="fl ic g2"><div class="av">'+(lv.name.split('').find(function(c){ return c.match(/[ก-ฮ]/); })||'N')+'</div>'+lv.name+'</div></td>'
++'<td><span class="badge '+tc+'">'+lv.type+'</span></td>'
++'<td>'+thDate(lv.s)+'</td><td>'+thDate(lv.e)+'</td>'
++'<td style="text-align:center;font-weight:700">'+lv.days+'</td>'
++'<td><span class="badge '+cls+'">'+lv.st+'</span></td>'
++'<td><div class="fl g2">'+btns+'</div></td></tr>';
+}).join('');
+}
+function addLeave() {
+var nId=v('lvNurse'), s=v('lvS'), e=v('lvE');
+if(!nId||!s||!e){ toast('กรุณากรอกข้อมูลให้ครบ','e'); return; }
+var n=staff.find(function(x){ return x.id===nId; });
+var days=Math.round((new Date(e)-new Date(s))/86400000)+1;
+leaves.push({id:'L'+Date.now(),nId,name:'พว.'+n.f+' '+n.l,type:v('lvType'),s,e,days,st:'รออนุมัติ'});
+closeM('mLeave'); renderLeaves();
+toast('ส่งคำขอลาสำเร็จ','s');
+addNotif('leave',n.f+' '+n.l+' แจ้งลา '+days+' วัน');
+syncNow();
+}
+function approveLv(id) {
+var lv=leaves.find(function(x){ return x.id===id; });
+if(!lv) return;
+lv.st='อนุมัติ';
+var cur=new Date(lv.s), end=new Date(lv.e);
+while(cur<=end){ sched[lv.nId+'|'+cur.toISOString().split('T')[0]]='leave'; cur.setDate(cur.getDate()+1); }
+renderLeaves(); renderSchedule();
+toast('อนุมัติการลา '+lv.name+' แล้ว','s');
+}
+function rejectLv(id) {
+var lv=leaves.find(function(x){ return x.id===id; });
+if(!lv||!confirm('ปฏิเสธคำขอลา?')) return;
+lv.st='ปฏิเสธ'; renderLeaves(); toast('ปฏิเสธคำขอลาแล้ว','w');
+}
+function renderSwaps() {
+var body=document.getElementById('swBody');
+if(!body) return;
+body.innerHTML=swaps.map(function(s){
+var cls={อนุมัติ:'bg',ปฏิเสธ:'br',รออนุมัติ:'ba'}[s.st]||'bgr';
+var btns='';
+if(s.st==='รออนุมัติ')
+btns='<button class="btn bgreen bsm" onclick="approveSwap(\''+s.id+'\')"><i class="fa-solid fa-check"></i>อนุมัติ</button>'
++'<button class="btn bred bsm" onclick="rejectSwap(\''+s.id+'\')"><i class="fa-solid fa-xmark"></i></button>';
+return '<tr><td>'+s.req+'</td>'
++'<td>'+thDate(s.fd)+' <span class="chip c'+s.fs+'" style="font-size:.72rem">'+s.fs+'</span></td>'
++'<td>'+s.tgt+'</td>'
++'<td>'+thDate(s.td)+' <span class="chip c'+s.ts+'" style="font-size:.72rem">'+s.ts+'</span></td>'
++'<td>'+thDate(s.sub)+'</td>'
++'<td><span class="badge '+cls+'">'+s.st+'</span></td>'
++'<td><div class="fl g2">'+btns+'</div></td></tr>';
+}).join('');
+var pending=swaps.filter(function(s){ return s.st==='รออนุมัติ'; }).length;
+var badge=document.getElementById('swapBadge');
+if(badge){ badge.textContent=pending; badge.style.display=pending?'inline-block':'none'; }
+}
+function addSwap() {
+var rId=v('swReq'), tId=v('swTgt'), fd=v('swFD'), td=v('swTD');
+if(!rId||!tId||!fd||!td){ toast('กรุณากรอกข้อมูลให้ครบ','e'); return; }
+var rn=staff.find(function(s){ return s.id===rId; });
+var tn=staff.find(function(s){ return s.id===tId; });
+swaps.unshift({id:'S'+Date.now(),req:'พว.'+rn.f+' '+rn.l,fd,fs:v('swFS'),tgt:'พว.'+tn.f+' '+tn.l,td,ts:v('swTS'),sub:new Date().toISOString().split('T')[0],st:'รออนุมัติ'});
+closeM('mSwap'); renderSwaps();
+toast('ส่งคำขอแลกเวรสำเร็จ','s');
+addNotif('swap',rn.f+' ขอแลกเวรกับ '+tn.f);
+}
+function approveSwap(id) {
+var s=swaps.find(function(x){ return x.id===id; });
+if(!s) return; s.st='อนุมัติ';
+renderSwaps(); renderSchedule();
+toast('อนุมัติการแลกเวรแล้ว','s');
+}
+function rejectSwap(id) {
+var s=swaps.find(function(x){ return x.id===id; });
+if(!s||!confirm('ปฏิเสธ?')) return; s.st='ปฏิเสธ'; renderSwaps(); toast('ปฏิเสธแล้ว','w');
+}
+function renderTypes() {
+var body=document.getElementById('tyBody');
+if(!body) return;
+body.innerHTML=shiftTypes.map(function(t){
+return '<tr>'
++'<td><span class="chip c'+t.code+'" style="font-size:.82rem">'+t.code+'</span></td>'
++'<td style="font-weight:600">'+t.name+'</td>'
++'<td>'+t.s+'</td><td>'+t.e+'</td><td>'+t.h+' ชม.</td>'
++'<td><div style="width:22px;height:22px;border-radius:5px;background:'+t.col+';display:inline-block"></div></td>'
++'<td><span class="badge bg">ใช้งาน</span></td>'
++'<td><button class="btn bghost bsm" onclick="delType(\''+t.code+'\')"><i class="fa-solid fa-trash" style="color:var(--red)"></i></button></td></tr>';
+}).join('');
+}
+function addType() {
+var code=v('tyC').toUpperCase(), name=v('tyN');
+if(!code||!name){ toast('กรุณากรอกรหัสและชื่อ','e'); return; }
+var s=v('tyS'), e=v('tyE');
+var sh=parseInt(e.split(':')[0])-parseInt(s.split(':')[0]);
+if(sh<=0) sh+=24;
+shiftTypes.push({code,name,s,e,h:sh,col:v('tyCol')});
+closeM('mType'); renderTypes(); toast('เพิ่มประเภทเวรสำเร็จ','s');
+}
+function delType(code) {
+if(!confirm('ลบประเภทเวร '+code+'?')) return;
+shiftTypes=shiftTypes.filter(function(t){ return t.code!==code; });
+renderTypes(); toast('ลบแล้ว','s');
+}
+function renderNotifs() {
+var el=document.getElementById('ntList');
+if(!el) return;
+el.innerHTML=notifs.map(function(n){
+var ic={shift:'fa-calendar-day',swap:'fa-arrows-rotate',leave:'fa-calendar-xmark',system:'fa-gear'}[n.type]||'fa-bell';
+var col={shift:'var(--blue2)',swap:'var(--amber)',leave:'var(--teal)',system:'var(--text2)'}[n.type]||'var(--blue2)';
+return '<div style="display:flex;align-items:flex-start;gap:11px;padding:13px 18px;border-bottom:1px solid var(--border);'+(n.read?'':'background:var(--bluepale)')+'">'
++'<div style="width:34px;height:34px;border-radius:9px;background:'+col+'20;display:flex;align-items:center;justify-content:center;flex-shrink:0">'
++'<i class="fa-solid '+ic+'" style="color:'+col+'"></i></div>'
++'<div style="flex:1"><div style="font-size:.88rem;'+(n.read?'':'font-weight:600')+'">'+n.msg+'</div>'
++'<div style="font-size:.73rem;color:var(--text3);margin-top:2px">'+n.time+'</div></div>'
++(n.read?'':'<button class="btn bghost bsm" onclick="markRead(\''+n.id+'\')"><i class="fa-solid fa-check"></i></button>')
++'</div>';
+}).join('');
+}
+function markRead(id) { var n=notifs.find(function(x){ return x.id===id; }); if(n) n.read=true; renderNotifs(); }
+function markAllRead() { notifs.forEach(function(n){ n.read=true; }); renderNotifs(); toast('อ่านทั้งหมดแล้ว','s'); }
+function addNotif(type,msg) { notifs.unshift({id:'NT'+Date.now(),type,msg,time:'เมื่อกี้',read:false}); renderNotifs(); }
+function renderReportCharts() {
+setTimeout(function(){
+var c1=document.getElementById('chWork');
+if(c1&&!CH.work){
+CH.work=new Chart(c1,{type:'bar',
+data:{labels:staff.slice(0,8).map(function(s){ return s.f; }),
+datasets:[{label:'เวรเดือนนี้',data:staff.slice(0,8).map(function(s){ return s.sh; }),backgroundColor:'rgba(37,99,184,.7)',borderRadius:5}]},
+options:{responsive:true,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{grid:{color:'#f1f5f9'},max:26},y:{grid:{display:false}}}}
+});
+}
+var c2=document.getElementById('chOT');
+if(c2&&!CH.ot){
+CH.ot=new Chart(c2,{type:'bar',
+data:{labels:staff.slice(0,8).map(function(s){ return s.f; }),
+datasets:[
+{label:'OT (ชม.)',data:[4,2,6,3,2,0,4,2],backgroundColor:'rgba(217,119,6,.7)',borderRadius:4},
+{label:'เวรดึก',  data:[6,4,8,5,3,2,7,4],backgroundColor:'rgba(124,58,237,.7)',borderRadius:4},
+]},
+options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{family:'Sarabun'}}}},
+scales:{y:{beginAtZero:true,grid:{color:'#f1f5f9'}},x:{grid:{display:false}}}}
+});
+}
+},100);
+}
+function renderAIPage() {
+var iss=document.getElementById('aiIss');
+if(iss&&!iss.innerHTML){
+var issues=[
+{sev:'high',  msg:'พว.มาลี ใจดี มีเวรดึก 4 วันติดต่อกัน (22-25 มิ.ย.)'},
+{sev:'high',  msg:'ICU มีกำลังคนต่ำกว่าเกณฑ์วันที่ 28 มิ.ย.'},
+{sev:'medium',msg:'พว.รัตนา แสงทอง ทำงาน 23 วัน/เดือน (เกินมาตรฐาน)'},
+{sev:'low',   msg:'ER มีพยาบาล 2 คนยังไม่ได้รับมอบหมาย On Call'},
+];
+iss.innerHTML=issues.map(function(i){
+var bg=i.sev==='high'?'var(--redl)':i.sev==='medium'?'var(--amberl)':'var(--bluepale)';
+var bc=i.sev==='high'?'#fca5a5':i.sev==='medium'?'#fde68a':'#bfdbfe';
+var col=i.sev==='high'?'var(--red)':i.sev==='medium'?'var(--amber)':'var(--blue2)';
+var ic=i.sev==='high'?'fa-circle-xmark':i.sev==='medium'?'fa-triangle-exclamation':'fa-circle-info';
+return '<div class="airow" style="background:'+bg+';border-color:'+bc+';color:'+col+';margin-bottom:8px"><i class="fa-solid '+ic+'"></i><span>'+i.msg+'</span></div>';
+}).join('');
+}
+setTimeout(function(){
+var c=document.getElementById('chFore');
+if(c&&!CH.fore){
+CH.fore=new Chart(c,{type:'line',
+data:{labels:['ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'],
+datasets:[
+{label:'จริง',    data:[42,43,41,44,46,48],borderColor:'#2563b8',tension:.4,fill:false},
+{label:'คาดการณ์',data:[42,44,43,46,48,50],borderColor:'#0d9488',borderDash:[5,5],tension:.4,fill:false},
+]},
+options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{family:'Sarabun'}}}},
+scales:{y:{title:{display:true,text:'จำนวนพยาบาล'},grid:{color:'#f1f5f9'}},x:{grid:{display:false}}}}
+});
+}
+},100);
+}
+async function askAI() {
+var q=(document.getElementById('aiQ')||{value:''}).value.trim();
+if(!q) return;
+var card=document.getElementById('aiCard');
+var ans=document.getElementById('aiAns');
+if(!card||!ans) return;
+card.style.display='block';
+ans.innerHTML='<div class="spin" style="margin:auto;width:28px;height:28px"></div>';
+document.getElementById('aiQ').value='';
+var ctx='คุณคือผู้เชี่ยวชาญจัดตารางเวรพยาบาล ข้อมูล: พยาบาล '+staff.length+' คน แผนก ICU/ER/OPD/Ward A/Ward B/OR'
++' เวรเช้า 14 เวรบ่าย 12 เวรดึก 8 On Call 2 ปัญหา: มีพยาบาล 1 คนทำเวรดึก 4 คืนติดต่อกัน ICU กำลังคนต่ำ\n\nคำถาม: '+q+'\n\nตอบภาษาไทย กระชับ ปฏิบัติได้จริง';
+try {
+var res=await fetch('https://api.anthropic.com/v1/messages',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:ctx}]})
+});
+var data=await res.json();
+ans.textContent=data.content&&data.content[0]?data.content[0].text:'ไม่สามารถตอบได้';
+} catch(ex) {
+var fb={
+'ใคร':'พว.มาลี ใจดี ทำงานมากที่สุด 22 เวร/เดือน และมีเวรดึก 8 ครั้ง ควรพิจารณาลดภาระ',
+'icu':'ICU ต้องการพยาบาลเพิ่ม 1 คนในวันที่ 28 มิ.ย. แนะนำดึงจาก Ward B ที่มีกำลังสำรอง',
+'คาดการณ์':'เดือนหน้าต้องการพยาบาลเพิ่ม 2-3 คนช่วงวันหยุดยาว โดยเฉพาะเวรดึก',
+};
+var found=Object.keys(fb).find(function(k){ return q.toLowerCase().includes(k); });
+ans.textContent=found?fb[found]:'แนะนำให้ตรวจสอบภาระงานรายบุคคล กระจายเวรดึกให้สมดุล และตรวจสอบ ICU ให้มีพยาบาลอย่างน้อย 4 คนทุกเวร';
+}
+card.scrollIntoView({behavior:'smooth'});
+}
+async function syncNow() {
+var url=conf('gasUrl');
+if(!url){ toast('ยังไม่ได้ตั้งค่า Google Sheets URL','w'); return; }
+toast('กำลัง Sync...','info');
+var _syncEmail = (document.getElementById('emailTo')||{value:DEFAULT_EMAIL}).value.trim()||DEFAULT_EMAIL;
+var _syncLine  = (document.getElementById('lineToken')||{value:DEFAULT_LINE_TOKEN}).value.trim()||DEFAULT_LINE_TOKEN;
+var rows=Object.entries(sched).map(function(kv){
+var parts=kv[0].split('|');
+var nId=parts[0], date=parts[1], shift=kv[1];
+var n=staff.find(function(s){ return s.id===nId; });
+return [nId,date,shift,n?n.dept:'','',new Date().toISOString()];
+});
+try {
+await gasPost(url,'saveSchedule',{rows:rows});
+gasPost(url,'notify',{
+email:_syncEmail,
+lineToken:_syncLine,
+message:'[NurseSync] ✅ Sync ตารางเวรสำเร็จ '+new Date().toLocaleString('th-TH'),
+type:'sync',subject:'NurseSync Sync สำเร็จ'
+}).catch(function(){});
+toast('✅ Sync สำเร็จ — แจ้งเตือนส่งแล้ว','s');
+} catch(ex) {
+toast('Sync: '+ex.message,'e');
+}
+}
+async function testConn() {
+var url=(document.getElementById('gasUrl')||{value:''}).value.trim();
+if(!url){ toast('กรุณาใส่ URL','e'); return; }
+var el=document.getElementById('connStatus');
+el.innerHTML='<span style="color:var(--amber)"><i class="fa-solid fa-spinner fa-spin"></i> กำลังทดสอบ...</span>';
+try {
+var res=await fetch(url+'?action=ping');
+var data=await res.json();
+if(data.ok){
+el.innerHTML='<div style="background:var(--greenl);border:1px solid #86efac;border-radius:var(--rsm);padding:11px;color:var(--green)">'
++'<i class="fa-solid fa-check-circle"></i> เชื่อมต่อสำเร็จ! '+data.data.msg+'<br><small>'+data.data.email+'</small></div>';
+document.getElementById('ss3').className='sstep done';
+document.getElementById('ss4').className='sstep done';
+} else throw new Error(data.error);
+} catch(ex) {
+el.innerHTML='<div style="background:var(--amberl);border:1px solid #fde68a;border-radius:var(--rsm);padding:11px;color:var(--amber);font-size:.83rem">'
++'<i class="fa-solid fa-triangle-exclamation"></i> เชื่อมต่อไม่ได้ — ตรวจ URL และ Deploy settings<br><small>'+ex.message+'</small></div>';
+}
+}
+async function initGSheets() {
+var url=(document.getElementById('gasUrl')||{value:''}).value.trim()||conf('gasUrl');
+if(!url){ toast('กรุณาใส่ URL ก่อน','e'); return; }
+toast('กำลังสร้าง Sheets...','info');
+try {
+var res=await fetch(url+'?action=init');
+var data=await res.json();
+toast(data.ok?'✅ สร้าง Sheets เสร็จสิ้น! ('+data.data.created.join(', ')+')':data.error, data.ok?'s':'e');
+} catch(ex){
+toast('ไม่สามารถเชื่อมต่อ: '+ex.message,'e');
+}
+}
+function saveConf() {
+var url=(document.getElementById('gasUrl')||{value:''}).value.trim();
+var sid=(document.getElementById('sheetId')||{value:''}).value.trim();
+var em =(document.getElementById('gEmail')||{value:'stpfac@gmail.com'}).value.trim();
+conf('gasUrl',url); conf('sheetId',sid); conf('email',em);
+if(url) document.getElementById('ss3').className='sstep done';
+toast('บันทึกการตั้งค่าสำเร็จ','s');
+}
+async function gasPost(url, action, body) {
+var res=await fetch(url,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify(Object.assign({action},body))
+});
+return res.json();
+}
+function copyCode() {
+var fullCode = document.getElementById('gasPreview').textContent;
+var code = '// ไฟล์ Code.gs — วางใน Google Apps Script\n
+navigator.clipboard.writeText(code).then(function(){ toast('คัดลอก Code แล้ว — ดูไฟล์ Code.gs ที่แนบมา','s'); })
+.catch(function(){ toast('ดูไฟล์ Code.gs ที่ดาวน์โหลดไว้','w'); });
+}
+function testLine() {
+var t=(document.getElementById('lineToken')||{value:''}).value.trim()||DEFAULT_LINE_TOKEN;
+if(!t){ toast('กรุณาใส่ LINE Token','e'); return; }
+var url=conf('gasUrl');
+if(url) gasPost(url,'notify',{lineToken:t,message:'🏥 NurseSync ทดสอบ LINE Notify',type:'test',subject:'Test'})
+.then(function(r){ toast(r.ok?'LINE: '+r.data.results[0]:'Error','s'); }).catch(function(){ toast('ส่งแล้ว (ตรวจสอบที่ GAS)','w'); });
+else toast('ต้องตั้งค่า GAS URL ก่อน','w');
+}
+function testEmail() {
+var em=(document.getElementById('emailTo')||{value:DEFAULT_EMAIL}).value.trim()||DEFAULT_EMAIL;
+var url=conf('gasUrl');
+if(url) gasPost(url,'notify',{email:em,message:'🏥 NurseSync ทดสอบ Email',type:'test',subject:'NurseSync Test'})
+.then(function(r){ toast(r.ok?'Email: '+r.data.results[0]:'Error','s'); }).catch(function(){ toast('ส่งแล้ว (ตรวจสอบที่ GAS)','w'); });
+else toast('ต้องตั้งค่า GAS URL ก่อน','w');
+}
+function testTelegram() {
+var t=(document.getElementById('tgToken')||{value:''}).value.trim();
+var c=(document.getElementById('tgChat')||{value:''}).value.trim();
+if(!t||!c){ toast('กรุณาใส่ Bot Token และ Chat ID','e'); return; }
+var url=conf('gasUrl');
+if(url) gasPost(url,'notify',{telegramToken:t,telegramChat:c,message:'🏥 NurseSync ทดสอบ Telegram',type:'test'})
+.then(function(r){ toast(r.ok?'Telegram: '+r.data.results[0]:'Error','s'); }).catch(function(){ toast('ส่งแล้ว','w'); });
+else toast('ต้องตั้งค่า GAS URL ก่อน','w');
+}
+function fillNurseSelects() {
+var opts=staff.map(function(s){ return '<option value="'+s.id+'">'+s.pfx+s.f+' '+s.l+' ('+s.dept+')</option>'; }).join('');
+['shNurse','lvNurse','swReq','swTgt'].forEach(function(id){ var el=document.getElementById(id); if(el) el.innerHTML=opts; });
+}
+function thDate(ds) {
+if(!ds) return '-';
+var p=ds.split('-');
+var mn=['','ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+return parseInt(p[2])+' '+mn[parseInt(p[1])]+' '+(parseInt(p[0])+543);
+}
+function v(id) { var el=document.getElementById(id); return el?el.value:''; }
+function setEl(id,t) { var el=document.getElementById(id); if(el) el.textContent=t; }
+function openM(id) { document.getElementById(id).classList.add('on'); }
+function closeM(id) { document.getElementById(id).classList.remove('on'); }
+function showLoad() { document.getElementById('lov').classList.add('on'); }
+function hideLoad() { document.getElementById('lov').classList.remove('on'); }
+function toast(msg, type) {
+type=type||'info';
+var icons={s:'fa-circle-check',e:'fa-circle-xmark',w:'fa-triangle-exclamation',info:'fa-circle-info'};
+var el=document.createElement('div');
+el.className='toast '+(type==='s'?'s':type==='e'?'e':type==='w'?'w':'');
+el.innerHTML='<i class="fa-solid '+(icons[type]||icons.info)+' toast-i"></i><p>'+msg+'</p>';
+document.getElementById('tcon').appendChild(el);
+setTimeout(function(){ el.style.opacity='0';el.style.transform='translateX(16px)';el.style.transition='all .3s';setTimeout(function(){ el.remove(); },300); },3500);
+}</script>
+</body>
+</html>
